@@ -1,4 +1,4 @@
-# chiptune
+# Chiptune
 
 # Systems who use chiptune 
 NES has five voice channels
@@ -12,20 +12,13 @@ Each channels can switch to square, triangle, sawtooth and noises.
 
 gameboy has for channel
 * 2 pulse channels
-* a 4-bit waves channel
+* a 4-bit freeform waves channel
 * a noise channel
 
-# Formula
-## Squares waves
+Doc Nes 
+* <a href="https://wiki.nesdev.com/w/index.php/APU_Pulse">Nes Audio pulse</a> 
+* <a href="https://wiki.nesdev.com/w/index.php/APU"> Nes Audio processor</a> 
 
-## Triangle waves
+<a href="https://usherbrooke-my.sharepoint.com/:w:/g/personal/dubb2105_usherbrooke_ca/EYIBSPMK9FhBi1Pegy8rm0wBU_Hv-fohQ2XyBlC5AWeKrg?e=PsaCYv">Mes recherches en brefs</a>
 
-## Sawtooth waves
-
-## Noise waves
-
-Leçon sur la programmation de musique:
-https://www.youtube.com/watch?v=tgamhuQnOkM
-
-Gameboy:
-https://www.youtube.com/watch?v=3jxcKPoi5Kc
+<a href="https://www.youtube.com/playlist?list=PLeLOIhENATBDA4xJ6ZUmUmEMUQkW7Zdfs">Vidéo Intéressante</a>
