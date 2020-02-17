@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_PianoUI.h"
+#include "notes_enum.cpp"
 
 class PianoUI : public QWidget
 {
@@ -10,8 +11,14 @@ class PianoUI : public QWidget
 public:
 	PianoUI(QWidget *parent = Q_NULLPTR);
 	~PianoUI();
-	void PianoUI::pressNote(QPushButton* button);
+
+public slots:
+	void PianoUI::pressNote(int noteId);
 
 private:
 	Ui::PianoUI ui;
+	QButtonGroup* pianoNotes;
+
+	void PianoUI::setButtonGroup();
+	void PianoUI::initEvents();
 };

@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <qdebug.h>
-// #include <QQmlApplicationEngine>
 #include <QtWidgets\qmainwindow.h>
 #include <ui_PianoUI.h>
 #include <PianoUI.h>

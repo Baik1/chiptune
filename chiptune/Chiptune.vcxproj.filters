@@ -45,6 +45,9 @@
     <ClCompile Include="PianoUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="notes_enum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
