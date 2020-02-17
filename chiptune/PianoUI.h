@@ -10,6 +10,7 @@ class PianoUI : public QWidget
 public:
 	PianoUI(QWidget *parent = Q_NULLPTR);
 	~PianoUI();
+	void PianoUI::pressNote(QPushButton* button);
 
 private:
 	Ui::PianoUI ui;

@@ -6,6 +6,8 @@ PianoUI::PianoUI(QWidget *parent)
 	ui.setupUi(this);
 }
 
-PianoUI::~PianoUI()
-{
+PianoUI::~PianoUI() = default;
+
+void PianoUI::pressNote(QPushButton* button) {
+	ui.noteLabel->setText("Test");
 }
