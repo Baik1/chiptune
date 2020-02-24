@@ -1,6 +1,23 @@
 #include "PianoUI.h"
+#include <QThread>
 
-PianoUI::PianoUI(QWidget *parent)
+class PlayNotes :public QThread
+{
+	QAbstractButton* pianoTiles;
+	Ui::PianoUI ui;
+
+    void run() override
+	{
+        while (pianoTiles->isDown())
+        {
+            //... do some stuff here
+        }
+	}
+public:
+	PlayNotes(QAbstractButton* btn, Ui::PianoUI ui) : pianoTiles(btn), ui(ui) {}
+};
+
+PianoUI::PianoUI(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
@@ -10,15 +27,18 @@ PianoUI::PianoUI(QWidget *parent)
 
 PianoUI::~PianoUI() = default;
 
-void PianoUI::pressNote(int noteId) 
+void PianoUI::pressNote(int noteId)
 {
 	NOTES note = static_cast<NOTES>(noteId);
 	ui.noteLabel->setText(notesToString[note]);
+	PlayNotes* play_notes = new PlayNotes(pianoNotes->button(noteId), ui);
+	connect(play_notes, &PlayNotes::finished, play_notes, &QObject::deleteLater);
+	play_notes->start();
 }
 
 
 // TODO: There's probably a cleaner way to do this...
-void PianoUI::setButtonGroup() 
+void PianoUI::setButtonGroup()
 {
 	pianoNotes = new QButtonGroup(this);
 	pianoNotes->addButton(ui.NoteA3, A3);
@@ -53,7 +73,7 @@ void PianoUI::setButtonGroup()
 	pianoNotes->addButton(ui.NoteD5, D5);
 }
 
-void PianoUI::initEvents() 
+void PianoUI::initEvents()
 {
 	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonClicked),
 		[=](int noteId) { pressNote(noteId); });
