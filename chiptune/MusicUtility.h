@@ -1,11 +1,12 @@
+#pragma once
+#include <map>
+
 /*
 
     Notes go from A to G, with 3 denoting the note's octave.
     A int value is automatically associated to each note.
 
 */
-
-#include <map>
 enum NOTES
 {
     A3 = -12,
@@ -72,3 +73,5 @@ static std::map<NOTES, const char* > notesToString = {
    {C5Flat, "C5#"},
    {D5, "D5"},
 };
+
+float notes_frequency(NOTES note);

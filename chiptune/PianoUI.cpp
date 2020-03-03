@@ -1,20 +1,26 @@
-#include "PianoUI.h"
 #include <QThread>
+
+#include "PianoUI.h"
+#include "MusicUtility.h"
+#include "olcNoiseMaker.h"
 
 class PlayNotes :public QThread
 {
-	QAbstractButton* pianoTiles;
-	Ui::PianoUI ui;
-
+	int noteId;
+	QButtonGroup* piano;
+    Ui::PianoUI ui;
+	
     void run() override
 	{
-        while (pianoTiles->isDown())
+		NOTES note = static_cast<NOTES>(noteId);
+        while (piano->button(noteId)->isDown())
         {
             //... do some stuff here
         }
+		ui.noteLabel->setText("allo");
 	}
 public:
-	PlayNotes(QAbstractButton* btn, Ui::PianoUI ui) : pianoTiles(btn), ui(ui) {}
+	PlayNotes(int note ,QButtonGroup* btn, Ui::PianoUI ui) : noteId(note), piano(btn), ui(ui) {}
 };
 
 PianoUI::PianoUI(QWidget* parent)
@@ -25,13 +31,12 @@ PianoUI::PianoUI(QWidget* parent)
 	initEvents();
 }
 
-PianoUI::~PianoUI() = default;
-
 void PianoUI::pressNote(int noteId)
 {
 	NOTES note = static_cast<NOTES>(noteId);
 	ui.noteLabel->setText(notesToString[note]);
-	PlayNotes* play_notes = new PlayNotes(pianoNotes->button(noteId), ui);
+
+	PlayNotes* play_notes = new PlayNotes(noteId, pianoNotes, ui);
 	connect(play_notes, &PlayNotes::finished, play_notes, &QObject::deleteLater);
 	play_notes->start();
 }
@@ -75,6 +80,6 @@ void PianoUI::setButtonGroup()
 
 void PianoUI::initEvents()
 {
-	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonClicked),
+	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonPressed),
 		[=](int noteId) { pressNote(noteId); });
 }

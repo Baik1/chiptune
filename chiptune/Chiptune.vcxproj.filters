@@ -42,9 +42,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="notes_enum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PianoUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -77,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MusicUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="olcNoiseMaker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SignalCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

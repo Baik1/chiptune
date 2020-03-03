@@ -1,8 +1,5 @@
 #pragma once
-
-#include <QWidget>
 #include "ui_PianoUI.h"
-#include "notes_enum.cpp"
 
 class PianoUI : public QWidget
 {
@@ -10,7 +7,7 @@ class PianoUI : public QWidget
 
 public:
 	PianoUI(QWidget *parent = Q_NULLPTR);
-	~PianoUI();
+	~PianoUI() = default;
 
 public slots:
 	void PianoUI::pressNote(int noteId);
