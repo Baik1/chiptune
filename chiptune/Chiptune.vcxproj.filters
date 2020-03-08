@@ -37,6 +37,9 @@
       <Extensions>ui</Extensions>
       <ParseFiles>true</ParseFiles>
     </Filter>
+    <Filter Include="RtAudio">
+      <UniqueIdentifier>{abb73dc6-5a2c-4706-b74e-545f555bae67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,18 @@
     </ClCompile>
     <ClCompile Include="PianoUI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RtAudio\Noise.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="RtAudio\RtAudio.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="RtAudio\SineWave.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="RtAudio\Stk.cpp">
+      <Filter>RtAudio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +76,7 @@
     <QtRcc Include="qml.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+    <None Include="portaudio_x64.dll" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="PianoUI.h">
@@ -76,11 +92,26 @@
     <ClInclude Include="MusicUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="olcNoiseMaker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SignalCreator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Generator.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Noise.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\RtAudio.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\SineWave.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Stk.h">
+      <Filter>RtAudio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
