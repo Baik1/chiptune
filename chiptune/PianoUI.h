@@ -1,22 +1,42 @@
 #pragma once
+#include <QThread>
+#include <RtAudio.h>
+#include <SineWave.h>
 
-#include <QWidget>
 #include "ui_PianoUI.h"
-#include "notes_enum.cpp"
+
 
 class PianoUI : public QWidget
 {
 	Q_OBJECT
+		class PlayNotes :public QThread
+	{
+		int noteId;
+		PianoUI* piano;
+
+		void run() override;
+	public:
+		PlayNotes(int note, PianoUI* piano) : noteId(note), piano(piano) {}
+	};
 
 public:
-	PianoUI(QWidget *parent = Q_NULLPTR);
-	~PianoUI();
+	PianoUI(QWidget* parent = Q_NULLPTR);
+	~PianoUI() = default;
+	Ui::PianoUI& ui() { return ui_; }
+	const Ui::PianoUI& ui() const { return ui_; }
+
+	RtAudio& audio() { return audio_; }
+	const RtAudio& audio() const { return audio_; }
 
 public slots:
 	void PianoUI::pressNote(int noteId);
 
 private:
-	Ui::PianoUI ui;
+	bool play_sounds = false;
+	RtAudio audio_;
+	stk::SineWave sounds_;
+
+	Ui::PianoUI ui_;
 	QButtonGroup* pianoNotes;
 
 	void PianoUI::setButtonGroup();
