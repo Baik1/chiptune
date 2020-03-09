@@ -9,8 +9,8 @@ using namespace stk;
 int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	double streamTime, RtAudioStreamStatus status, void* dataPointer)
 {
-	SineWave* sine = (SineWave*)dataPointer;
-	register StkFloat* samples = (StkFloat*)outputBuffer;
+	auto* sine = static_cast<SignalGenerator*>(dataPointer);
+    auto* samples = static_cast<StkFloat*>(outputBuffer);
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
@@ -20,33 +20,15 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 void PianoUI::PlayNotes::run()
 {
-	NOTES note = static_cast<NOTES>(noteId);
-
-    try {
-		piano->audio().startStream();
-	}
-	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
-	}
-
-	while (piano->pianoNotes->button(noteId)->isDown())
-	{
-		//... do some stuff here
-	}
-
-	try {
-		piano->audio().stopStream();
-	}
-	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
-	}
+    auto note = static_cast<NOTES>(noteId);
+	piano->sounds_.keyOn();
+	while (piano->pianoNotes->button(noteId)->isDown()) { /*On attend la fin*/ };
+	piano->sounds_.keyOff();
 }
 
 
 PianoUI::PianoUI(QWidget* parent)
-	: QWidget(parent), audio_()
+	: QWidget(parent)
 {
 	ui().setupUi(this);
 	setButtonGroup();
@@ -55,27 +37,27 @@ PianoUI::PianoUI(QWidget* parent)
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
 	parameters.nChannels = 1;
-	RtAudioFormat format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
-	unsigned int bufferFrames = RT_BUFFER_SIZE;
+    auto format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
+    auto bufferFrames = RT_BUFFER_SIZE;
 
 	try {
 		audio_.openStream(&parameters, NULL, format, (unsigned int)Stk::sampleRate(), &bufferFrames, &tick, (void*)&sounds_);
+		audio_.startStream();
 	}
 	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
+		throw error;
 	}
 
 }
 
 void PianoUI::pressNote(int noteId)
 {
-	NOTES note = static_cast<NOTES>(noteId);
+    auto note = static_cast<NOTES>(noteId);
 	ui().noteLabel->setText(notesToString[note]);
 
 	sounds_.setFrequency(notes_frequency(note));
 
-	PlayNotes* play_notes = new PlayNotes(noteId, this);
+    auto play_notes = new PlayNotes(noteId, this);
 	connect(play_notes, &PlayNotes::finished, play_notes, &QObject::deleteLater);
 	play_notes->start();
 }

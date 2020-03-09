@@ -4,7 +4,8 @@
 #include <SineWave.h>
 
 #include "ui_PianoUI.h"
-
+#include "Envelope.h"
+#include "SignalGenerator.h"
 
 class PianoUI : public QWidget
 {
@@ -34,7 +35,7 @@ public slots:
 private:
 	bool play_sounds = false;
 	RtAudio audio_;
-	stk::SineWave sounds_;
+	SignalGenerator sounds_;
 
 	Ui::PianoUI ui_;
 	QButtonGroup* pianoNotes;

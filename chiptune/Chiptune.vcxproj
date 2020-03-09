@@ -181,10 +181,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PianoUI.cpp" />
+    <ClCompile Include="RtAudio\Envelope.cpp" />
     <ClCompile Include="RtAudio\Noise.cpp" />
     <ClCompile Include="RtAudio\RtAudio.cpp" />
     <ClCompile Include="RtAudio\SineWave.cpp" />
     <ClCompile Include="RtAudio\Stk.cpp" />
+    <ClCompile Include="SignalGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -218,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MusicUtility.h" />
+    <ClInclude Include="RtAudio\Envelope.h" />
     <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h" />
     <ClInclude Include="RtAudio\Generator.h" />
     <ClInclude Include="RtAudio\Noise.h" />

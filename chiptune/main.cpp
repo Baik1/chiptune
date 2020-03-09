@@ -11,19 +11,19 @@ int main(int argc, char *argv[])
 {
     // Set the global sample rate before creating class instances.
     Stk::setSampleRate(44100.0);
-
     QApplication app(argc, argv);
-    PianoUI ui;
-    ui.show();
-
-    int code = app.exec();
-
-    // Shut down the output stream.
-    try {
+    int code = 0;
+    try
+    {
+        PianoUI ui;
+        ui.show();
+        code = app.exec();
         ui.audio().closeStream();
     }
-    catch (RtAudioError & error) {
+    catch (RtAudioError& error)
+    {
         error.printMessage();
     }
+
     return code;
 }

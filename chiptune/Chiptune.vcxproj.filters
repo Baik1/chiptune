@@ -60,6 +60,12 @@
     <ClCompile Include="RtAudio\Stk.cpp">
       <Filter>RtAudio</Filter>
     </ClCompile>
+    <ClCompile Include="RtAudio\Envelope.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="SignalGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -111,6 +117,9 @@
       <Filter>RtAudio</Filter>
     </ClInclude>
     <ClInclude Include="RtAudio\Stk.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Envelope.h">
       <Filter>RtAudio</Filter>
     </ClInclude>
   </ItemGroup>
