@@ -34,6 +34,7 @@ PianoUI::PianoUI(QWidget* parent)
 	setButtonGroup();
 	initEvents();
 
+	sounds_.setEnvelopeRate(0.01);
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
 	parameters.nChannels = 1;

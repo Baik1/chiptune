@@ -14,9 +14,13 @@ public:
     //! Clear output and reset time pointer to zero.
     void reset(void);
 
-    void setRate(StkFloat rate)
+    void setSinusRate(StkFloat rate)
     {
         sine_.setRate(rate);
+    }
+
+    void setEnvelopeRate(StkFloat rate)
+    {
         envelope_.setRate(rate);
     }
 

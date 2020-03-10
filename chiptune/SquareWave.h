@@ -11,7 +11,7 @@ public:
     //! Default constructor.
     SquareWave(void)
     {
-        sines_.resize(100);
+        sines_.resize(200);
     }
 
     //! Class destructor.
@@ -20,10 +20,14 @@ public:
     //! Clear output and reset time pointer to zero.
     void reset(void);
 
-    void setRate(StkFloat rate)
+    void setSinusRate(StkFloat rate)
     {
         for (auto& sine : sines_)
             sine.setRate(rate);
+    }
+
+    void setEnvelopeRate(StkFloat rate)
+    {
         envelope_.setRate(rate);
     }
 
@@ -94,7 +98,6 @@ protected:
 
 inline StkFloat SquareWave::tick()
 {
-    using namespace std;
     double tick = 0.0;
     for(auto i=0; i< sines_.size(); i++)
         tick += (sines_[i].tick()) / (2 * i + 1);

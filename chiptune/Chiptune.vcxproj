@@ -226,7 +226,6 @@
     <ClInclude Include="RtAudio\RtAudio.h" />
     <ClInclude Include="RtAudio\SineWave.h" />
     <ClInclude Include="RtAudio\Stk.h" />
-    <ClInclude Include="SignalCreator.h" />
     <ClInclude Include="SquareWave.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
