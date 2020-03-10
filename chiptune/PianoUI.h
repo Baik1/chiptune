@@ -1,11 +1,9 @@
 #pragma once
 #include <QThread>
 #include <RtAudio.h>
-#include <SineWave.h>
-
 #include "ui_PianoUI.h"
-#include "Envelope.h"
-#include "SignalGenerator.h"
+
+#include "SquareWave.h"
 
 class PianoUI : public QWidget
 {
@@ -35,7 +33,7 @@ public slots:
 private:
 	bool play_sounds = false;
 	RtAudio audio_;
-	SignalGenerator sounds_;
+	SquareWave sounds_;
 
 	Ui::PianoUI ui_;
 	QButtonGroup* pianoNotes;

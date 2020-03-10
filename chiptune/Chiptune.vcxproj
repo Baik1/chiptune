@@ -186,7 +186,7 @@
     <ClCompile Include="RtAudio\RtAudio.cpp" />
     <ClCompile Include="RtAudio\SineWave.cpp" />
     <ClCompile Include="RtAudio\Stk.cpp" />
-    <ClCompile Include="SignalGenerator.h" />
+    <ClCompile Include="SinusWave.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -208,7 +208,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="main.qml" />
-    <None Include="portaudio_x64.dll" />
     <QtRcc Include="qml.qrc">
     </QtRcc>
   </ItemGroup>
@@ -228,6 +227,7 @@
     <ClInclude Include="RtAudio\SineWave.h" />
     <ClInclude Include="RtAudio\Stk.h" />
     <ClInclude Include="SignalCreator.h" />
+    <ClInclude Include="SquareWave.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

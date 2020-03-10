@@ -9,7 +9,7 @@ using namespace stk;
 int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	double streamTime, RtAudioStreamStatus status, void* dataPointer)
 {
-	auto* sine = static_cast<SignalGenerator*>(dataPointer);
+	auto* sine = static_cast<SquareWave*>(dataPointer);
     auto* samples = static_cast<StkFloat*>(outputBuffer);
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)

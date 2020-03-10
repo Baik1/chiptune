@@ -1,32 +1,53 @@
-#include<Generator.h>
-#include<SineWave.h>
+#include <vector>
+#include <Generator.h>
+#include <SineWave.h>
 #include <Envelope.h>
+
 using namespace stk;
-class SignalGenerator :public stk::Generator
+
+class SquareWave :public stk::Generator
 {
 public:
     //! Default constructor.
-    SignalGenerator(void) {}
+    SquareWave(void)
+    {
+        sines_.resize(100);
+    }
 
     //! Class destructor.
-    ~SignalGenerator(void)=default;
+    ~SquareWave(void) = default;
 
     //! Clear output and reset time pointer to zero.
     void reset(void);
 
     void setRate(StkFloat rate)
     {
-        sine_.setRate(rate);
+        for (auto& sine : sines_)
+            sine.setRate(rate);
         envelope_.setRate(rate);
     }
 
-    void setFrequency(StkFloat frequency) { sine_.setFrequency(frequency); }
+    void setFrequency(StkFloat frequency)
+    {
+        for (auto i = 0; i < sines_.size(); i++)
+            sines_[i].setFrequency((2 * i + 1) * frequency);
+    }
 
-    void addTime(StkFloat time) { sine_.addTime(time); }
+    void addTime(StkFloat time)
+    {
+        for (auto& sine : sines_)
+            sine.addTime(time);
+    }
 
-    void addPhase(StkFloat phase) { sine_.addPhase(phase); }
+    void addPhase(StkFloat phase) {
+        for (auto& sine : sines_)
+            sine.addPhase(phase);
+    }
 
-    void addPhaseOffset(StkFloat phaseOffset) { sine_.addPhaseOffset(phaseOffset); }
+    void addPhaseOffset(StkFloat phaseOffset) {
+        for (auto& sine : sines_)
+            sine.addPhaseOffset(phaseOffset);
+    }
 
     //! Return the last computed output value.
     StkFloat lastOut(void) const { return lastFrame_[0]; }
@@ -67,20 +88,21 @@ public:
     StkFrames& tick(StkFrames& frames, unsigned int channel = 0) override;
 
 protected:
-    SineWave sine_;
+    std::vector<SineWave> sines_;
     Envelope envelope_;
 };
 
-inline StkFloat SignalGenerator::tick()
+inline StkFloat SquareWave::tick()
 {
-    return sine_.tick() * envelope_.tick();
+    using namespace std;
+    double tick = 0.0;
+    for(auto i=0; i< sines_.size(); i++)
+        tick += (sines_[i].tick()) / (2 * i + 1);
+    return (4 / PI) * tick * envelope_.tick();
 }
 
-inline StkFrames& SignalGenerator::tick(StkFrames& frames, unsigned channel)
+inline StkFrames& SquareWave::tick(StkFrames& frames, unsigned channel)
 {
-    StkFrames sinus_frames(frames);
-    auto sinus = sine_.tick(sinus_frames, channel);
-    envelope_.tick(frames, channel);
-    frames *= sinus_frames;
+    throw std::exception("not implemented");
     return frames;
 }
