@@ -1,5 +1,6 @@
 #include <QThread>
 #include <RtAudio.h>
+#include <QKeyEvent>
 
 #include "PianoUI.h"
 #include "MusicUtility.h"
@@ -44,7 +45,6 @@ void PianoUI::PlayNotes::run()
 	}
 }
 
-
 PianoUI::PianoUI(QWidget* parent)
 	: QWidget(parent), audio_()
 {
@@ -66,6 +66,160 @@ PianoUI::PianoUI(QWidget* parent)
 		return;
 	}
 
+}
+
+// TODO: Find a cleaner and faster way to do this.
+void PianoUI::keyPressEvent(QKeyEvent* event)
+{
+	if (event->key() == Qt::Key_A)
+	{
+		ui().NoteA3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_W)
+	{
+		ui().NoteA3Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_S)
+	{
+		ui().NoteB3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_E)
+	{
+		ui().NoteC3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_D)
+	{
+		ui().NoteC3Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_R)
+	{
+		ui().NoteD3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_F)
+	{
+		ui().NoteD3Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_T)
+	{
+		ui().NoteE3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_G)
+	{
+		ui().NoteF3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_Y)
+	{
+		ui().NoteF3Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_H)
+	{
+		ui().NoteG3->animateClick();
+	}
+
+	if (event->key() == Qt::Key_U)
+	{
+		ui().NoteG3Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_J)
+	{
+		ui().NoteA4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_I)
+	{
+		ui().NoteA4Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_K)
+	{
+		ui().NoteB4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_O)
+	{
+		ui().NoteC4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_L)
+	{
+		ui().NoteC4Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_P)
+	{
+		ui().NoteD4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_Z)
+	{
+		ui().NoteD4Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_X)
+	{
+		ui().NoteE4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_C)
+	{
+		ui().NoteF4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_V)
+	{
+		ui().NoteF4Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_B)
+	{
+		ui().NoteG4->animateClick();
+	}
+
+	if (event->key() == Qt::Key_N)
+	{
+		ui().NoteG4Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_1)
+	{
+		ui().NoteA5->animateClick();
+	}
+
+	if (event->key() == Qt::Key_2)
+	{
+		ui().NoteA5Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_3)
+	{
+		ui().NoteB5->animateClick();
+	}
+
+	if (event->key() == Qt::Key_5)
+	{
+		ui().NoteC5->animateClick();
+	}
+
+	if (event->key() == Qt::Key_5)
+	{
+		ui().NoteC5Flat->animateClick();
+	}
+
+	if (event->key() == Qt::Key_6)
+	{
+		ui().NoteD5->animateClick();
+	}
 }
 
 void PianoUI::pressNote(int noteId)

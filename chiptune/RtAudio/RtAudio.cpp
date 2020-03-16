@@ -4613,7 +4613,7 @@ void RtApiWasapi::stopStream( void )
   Sleep( 1000 * stream_.bufferSize / stream_.sampleRate );
 
   // close thread handle
-  if ( stream_.callbackInfo.thread && !CloseHandle( ( void* ) stream_.callbackInfo.thread ) ) {
+ if ( stream_.callbackInfo.thread && !CloseHandle( ( void* ) stream_.callbackInfo.thread ) ) {
     errorText_ = "RtApiWasapi::stopStream: Unable to close callback thread.";
     error( RtAudioError::THREAD_ERROR );
     return;

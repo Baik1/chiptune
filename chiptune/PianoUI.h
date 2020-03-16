@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <QThread>
 #include <RtAudio.h>
 #include <SineWave.h>
@@ -28,9 +30,12 @@ public:
 	RtAudio& audio() { return audio_; }
 	const RtAudio& audio() const { return audio_; }
 
+protected:
+	void keyPressEvent(QKeyEvent*);
+
 public slots:
 	void PianoUI::pressNote(int noteId);
-
+	
 private:
 	bool play_sounds = false;
 	RtAudio audio_;
