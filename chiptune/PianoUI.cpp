@@ -58,111 +58,17 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 		auto note = KeyToNotes[event->key()];
 		ui().noteLabel->setText(notesToString[note]);
 		sounds_.setFrequency(notes_frequency(note));
+		pianoNotes->button(note)->setDown(true);
 		sounds_.keyOn();
 	}
-    /*
-    int a = event->key();
-	switch (event->key())
-	{
-	case Qt::Key_A:
-		ui().NoteA3->animateClick();
-		break;
-	case Qt::Key_W:
-		ui().NoteA3Flat->animateClick();
-		break;
-	case Qt::Key_S:
-		ui().NoteB3->animateClick();
-		break;
-	case Qt::Key_E:
-		ui().NoteC3->animateClick();
-		break;
-	case Qt::Key_D:
-		ui().NoteC3Flat->animateClick();
-		break;
-	case Qt::Key_R:
-		ui().NoteD3->animateClick();
-		break;
-	case Qt::Key_F:
-		ui().NoteD3Flat->animateClick();
-		break;
-	case Qt::Key_T:
-		ui().NoteE3->animateClick();
-		break;
-	case Qt::Key_G:
-		ui().NoteF3->animateClick();
-		break;
-	case Qt::Key_Y:
-		ui().NoteF3Flat->animateClick();
-		break;
-	case Qt::Key_H:
-		ui().NoteG3->animateClick();
-		break;
-	case Qt::Key_U:
-		ui().NoteG3Flat->animateClick();
-		break;
-	case Qt::Key_J:
-		ui().NoteA4->animateClick();
-		break;
-	case Qt::Key_I:
-		ui().NoteA4Flat->animateClick();
-		break;
-	case Qt::Key_K:
-		ui().NoteB4->animateClick();
-		break;
-	case Qt::Key_O:
-		ui().NoteC4->animateClick();
-		break;
-	case Qt::Key_L:
-		ui().NoteC4Flat->animateClick();
-		break;
-	case Qt::Key_P:
-		ui().NoteD4->animateClick();
-		break;
-	case Qt::Key_Z:
-		ui().NoteD4Flat->animateClick();
-		break;
-	case Qt::Key_X:
-		ui().NoteE4->animateClick();
-		break;
-	case Qt::Key_C:
-		ui().NoteF4->animateClick();
-		break;
-	case Qt::Key_V:
-		ui().NoteF4Flat->animateClick();
-		break;
-	case Qt::Key_B:
-		ui().NoteG4->animateClick();
-		break;
-	case Qt::Key_N:
-		ui().NoteG4Flat->animateClick();
-		break;
-	case Qt::Key_1:
-		ui().NoteA5->animateClick();
-		break;
-	case Qt::Key_2:
-		ui().NoteA5Flat->animateClick();
-		break;
-	case Qt::Key_3:
-		ui().NoteB5->animateClick();
-		break;
-	case Qt::Key_4:
-		ui().NoteC5->animateClick();
-		break;
-	case Qt::Key_5:
-		ui().NoteC5Flat->animateClick();
-		break;
-	case Qt::Key_6:
-		ui().NoteD5->animateClick();
-		break;
-	default:
-		break;
-	}*/
 }
 
 void PianoUI::keyReleaseEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
-		sounds_.keyOff();
+		auto note = KeyToNotes[event->key()];
+		pianoNotes->button(note)->setDown(false);
+	    sounds_.keyOff();
 	}
 }
 

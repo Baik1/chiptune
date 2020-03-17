@@ -22,17 +22,6 @@ class PianoUI : public QWidget
 		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
 	};
 
-	class key_board :public QThread
-	{
-		int noteId_;
-		QKeyEvent* pianoNotes_;
-		SquareWave& sounds_;
-
-		void run() override;
-	public:
-		key_board(int note, QKeyEvent* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
-	};
-
 public:
 	PianoUI(QWidget* parent = Q_NULLPTR);
 	~PianoUI() = default;
@@ -43,8 +32,8 @@ public:
 	const RtAudio& audio() const { return audio_; }
 
 protected:
-	void keyPressEvent(QKeyEvent*);
-	void keyReleaseEvent(QKeyEvent*);
+	void keyPressEvent(QKeyEvent*) override;
+	void keyReleaseEvent(QKeyEvent*) override;
 
 public slots:
 	void PianoUI::pressNote(int noteId);
