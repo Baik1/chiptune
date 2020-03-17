@@ -10,8 +10,8 @@ using namespace stk;
 int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	double streamTime, RtAudioStreamStatus status, void* dataPointer)
 {
-	SineWave* sine = (SineWave*)dataPointer;
-	register StkFloat* samples = (StkFloat*)outputBuffer;
+	auto* sine = static_cast<SquareWave*>(dataPointer);
+    auto* samples = static_cast<StkFloat*>(outputBuffer);
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
@@ -19,51 +19,34 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	return 0;
 }
 
-void PianoUI::PlayNotes::run()
+void PianoUI::GUI_board::run()
 {
-	NOTES note = static_cast<NOTES>(noteId);
-
-    try {
-		piano->audio().startStream();
-	}
-	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
-	}
-
-	while (piano->pianoNotes->button(noteId)->isDown())
-	{
-		//... do some stuff here
-	}
-
-	try {
-		piano->audio().stopStream();
-	}
-	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
-	}
+    auto note = static_cast<NOTES>(noteId_);
+	sounds_.keyOn();
+	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
+	sounds_.keyOff();
 }
 
 PianoUI::PianoUI(QWidget* parent)
-	: QWidget(parent), audio_()
+	: QWidget(parent)
 {
 	ui().setupUi(this);
 	setButtonGroup();
 	initEvents();
 
+	sounds_.setEnvelopeRate(0.01);
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
 	parameters.nChannels = 1;
-	RtAudioFormat format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
-	unsigned int bufferFrames = RT_BUFFER_SIZE;
+    auto format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
+    auto bufferFrames = RT_BUFFER_SIZE;
 
 	try {
 		audio_.openStream(&parameters, NULL, format, (unsigned int)Stk::sampleRate(), &bufferFrames, &tick, (void*)&sounds_);
+		audio_.startStream();
 	}
 	catch (RtAudioError & error) {
-		error.printMessage();
-		return;
+		throw error;
 	}
 
 }
@@ -71,169 +54,34 @@ PianoUI::PianoUI(QWidget* parent)
 // TODO: Find a cleaner and faster way to do this.
 void PianoUI::keyPressEvent(QKeyEvent* event)
 {
-	if (event->key() == Qt::Key_A)
-	{
-		ui().NoteA3->animateClick();
+	if (KeyToNotes.count(event->key()) > 0) {
+		auto note = KeyToNotes[event->key()];
+		ui().noteLabel->setText(notesToString[note]);
+		sounds_.setFrequency(notes_frequency(note));
+		pianoNotes->button(note)->setDown(true);
+		sounds_.keyOn();
 	}
+}
 
-	if (event->key() == Qt::Key_W)
-	{
-		ui().NoteA3Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_S)
-	{
-		ui().NoteB3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_E)
-	{
-		ui().NoteC3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_D)
-	{
-		ui().NoteC3Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_R)
-	{
-		ui().NoteD3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_F)
-	{
-		ui().NoteD3Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_T)
-	{
-		ui().NoteE3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_G)
-	{
-		ui().NoteF3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_Y)
-	{
-		ui().NoteF3Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_H)
-	{
-		ui().NoteG3->animateClick();
-	}
-
-	if (event->key() == Qt::Key_U)
-	{
-		ui().NoteG3Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_J)
-	{
-		ui().NoteA4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_I)
-	{
-		ui().NoteA4Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_K)
-	{
-		ui().NoteB4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_O)
-	{
-		ui().NoteC4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_L)
-	{
-		ui().NoteC4Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_P)
-	{
-		ui().NoteD4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_Z)
-	{
-		ui().NoteD4Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_X)
-	{
-		ui().NoteE4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_C)
-	{
-		ui().NoteF4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_V)
-	{
-		ui().NoteF4Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_B)
-	{
-		ui().NoteG4->animateClick();
-	}
-
-	if (event->key() == Qt::Key_N)
-	{
-		ui().NoteG4Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_1)
-	{
-		ui().NoteA5->animateClick();
-	}
-
-	if (event->key() == Qt::Key_2)
-	{
-		ui().NoteA5Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_3)
-	{
-		ui().NoteB5->animateClick();
-	}
-
-	if (event->key() == Qt::Key_5)
-	{
-		ui().NoteC5->animateClick();
-	}
-
-	if (event->key() == Qt::Key_5)
-	{
-		ui().NoteC5Flat->animateClick();
-	}
-
-	if (event->key() == Qt::Key_6)
-	{
-		ui().NoteD5->animateClick();
+void PianoUI::keyReleaseEvent(QKeyEvent* event)
+{
+	if (KeyToNotes.count(event->key()) > 0) {
+		auto note = KeyToNotes[event->key()];
+		pianoNotes->button(note)->setDown(false);
+	    sounds_.keyOff();
 	}
 }
 
 void PianoUI::pressNote(int noteId)
 {
-	NOTES note = static_cast<NOTES>(noteId);
+	auto note = static_cast<NOTES>(noteId);
 	ui().noteLabel->setText(notesToString[note]);
-
 	sounds_.setFrequency(notes_frequency(note));
 
-	PlayNotes* play_notes = new PlayNotes(noteId, this);
-	connect(play_notes, &PlayNotes::finished, play_notes, &QObject::deleteLater);
+	auto play_notes = new GUI_board(noteId, pianoNotes, sounds_);
+	connect(play_notes, &GUI_board::finished, play_notes, &QObject::deleteLater);
 	play_notes->start();
 }
-
 
 // TODO: There's probably a cleaner way to do this...
 void PianoUI::setButtonGroup()

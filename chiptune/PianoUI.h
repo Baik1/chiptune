@@ -3,22 +3,23 @@
 
 #include <QThread>
 #include <RtAudio.h>
-#include <SineWave.h>
-
 #include "ui_PianoUI.h"
 
+#include "SquareWave.h"
 
 class PianoUI : public QWidget
 {
 	Q_OBJECT
-		class PlayNotes :public QThread
+
+	class GUI_board :public QThread
 	{
-		int noteId;
-		PianoUI* piano;
+		int noteId_;
+		QButtonGroup* pianoNotes_;
+		SquareWave& sounds_;
 
 		void run() override;
 	public:
-		PlayNotes(int note, PianoUI* piano) : noteId(note), piano(piano) {}
+		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
 	};
 
 public:
@@ -31,7 +32,8 @@ public:
 	const RtAudio& audio() const { return audio_; }
 
 protected:
-	void keyPressEvent(QKeyEvent*);
+	void keyPressEvent(QKeyEvent*) override;
+	void keyReleaseEvent(QKeyEvent*) override;
 
 public slots:
 	void PianoUI::pressNote(int noteId);
@@ -39,7 +41,7 @@ public slots:
 private:
 	bool play_sounds = false;
 	RtAudio audio_;
-	stk::SineWave sounds_;
+	SquareWave sounds_;
 
 	Ui::PianoUI ui_;
 	QButtonGroup* pianoNotes;
