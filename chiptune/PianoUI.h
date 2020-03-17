@@ -1,4 +1,6 @@
 #pragma once
+
+
 #include <QThread>
 #include <RtAudio.h>
 #include "ui_PianoUI.h"
@@ -8,14 +10,27 @@
 class PianoUI : public QWidget
 {
 	Q_OBJECT
-		class PlayNotes :public QThread
+
+	class GUI_board :public QThread
 	{
-		int noteId;
-		PianoUI* piano;
+		int noteId_;
+		QButtonGroup* pianoNotes_;
+		SquareWave& sounds_;
 
 		void run() override;
 	public:
-		PlayNotes(int note, PianoUI* piano) : noteId(note), piano(piano) {}
+		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
+	};
+
+	class key_board :public QThread
+	{
+		int noteId_;
+		QKeyEvent* pianoNotes_;
+		SquareWave& sounds_;
+
+		void run() override;
+	public:
+		key_board(int note, QKeyEvent* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
 	};
 
 public:
@@ -26,6 +41,10 @@ public:
 
 	RtAudio& audio() { return audio_; }
 	const RtAudio& audio() const { return audio_; }
+
+protected:
+	void keyPressEvent(QKeyEvent*);
+	void keyReleaseEvent(QKeyEvent*);
 
 public slots:
 	void PianoUI::pressNote(int noteId);

@@ -1,5 +1,6 @@
 #include <QThread>
 #include <RtAudio.h>
+#include <QKeyEvent>
 
 #include "PianoUI.h"
 #include "MusicUtility.h"
@@ -18,14 +19,13 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	return 0;
 }
 
-void PianoUI::PlayNotes::run()
+void PianoUI::GUI_board::run()
 {
-    auto note = static_cast<NOTES>(noteId);
-	piano->sounds_.keyOn();
-	while (piano->pianoNotes->button(noteId)->isDown()) { /*On attend la fin*/ };
-	piano->sounds_.keyOff();
+    auto note = static_cast<NOTES>(noteId_);
+	sounds_.keyOn();
+	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
+	sounds_.keyOff();
 }
-
 
 PianoUI::PianoUI(QWidget* parent)
 	: QWidget(parent)
@@ -51,18 +51,131 @@ PianoUI::PianoUI(QWidget* parent)
 
 }
 
-void PianoUI::pressNote(int noteId)
+// TODO: Find a cleaner and faster way to do this.
+void PianoUI::keyPressEvent(QKeyEvent* event)
 {
-    auto note = static_cast<NOTES>(noteId);
-	ui().noteLabel->setText(notesToString[note]);
-
-	sounds_.setFrequency(notes_frequency(note));
-
-    auto play_notes = new PlayNotes(noteId, this);
-	connect(play_notes, &PlayNotes::finished, play_notes, &QObject::deleteLater);
-	play_notes->start();
+	if (KeyToNotes.count(event->key()) > 0) {
+		auto note = KeyToNotes[event->key()];
+		ui().noteLabel->setText(notesToString[note]);
+		sounds_.setFrequency(notes_frequency(note));
+		sounds_.keyOn();
+	}
+    /*
+    int a = event->key();
+	switch (event->key())
+	{
+	case Qt::Key_A:
+		ui().NoteA3->animateClick();
+		break;
+	case Qt::Key_W:
+		ui().NoteA3Flat->animateClick();
+		break;
+	case Qt::Key_S:
+		ui().NoteB3->animateClick();
+		break;
+	case Qt::Key_E:
+		ui().NoteC3->animateClick();
+		break;
+	case Qt::Key_D:
+		ui().NoteC3Flat->animateClick();
+		break;
+	case Qt::Key_R:
+		ui().NoteD3->animateClick();
+		break;
+	case Qt::Key_F:
+		ui().NoteD3Flat->animateClick();
+		break;
+	case Qt::Key_T:
+		ui().NoteE3->animateClick();
+		break;
+	case Qt::Key_G:
+		ui().NoteF3->animateClick();
+		break;
+	case Qt::Key_Y:
+		ui().NoteF3Flat->animateClick();
+		break;
+	case Qt::Key_H:
+		ui().NoteG3->animateClick();
+		break;
+	case Qt::Key_U:
+		ui().NoteG3Flat->animateClick();
+		break;
+	case Qt::Key_J:
+		ui().NoteA4->animateClick();
+		break;
+	case Qt::Key_I:
+		ui().NoteA4Flat->animateClick();
+		break;
+	case Qt::Key_K:
+		ui().NoteB4->animateClick();
+		break;
+	case Qt::Key_O:
+		ui().NoteC4->animateClick();
+		break;
+	case Qt::Key_L:
+		ui().NoteC4Flat->animateClick();
+		break;
+	case Qt::Key_P:
+		ui().NoteD4->animateClick();
+		break;
+	case Qt::Key_Z:
+		ui().NoteD4Flat->animateClick();
+		break;
+	case Qt::Key_X:
+		ui().NoteE4->animateClick();
+		break;
+	case Qt::Key_C:
+		ui().NoteF4->animateClick();
+		break;
+	case Qt::Key_V:
+		ui().NoteF4Flat->animateClick();
+		break;
+	case Qt::Key_B:
+		ui().NoteG4->animateClick();
+		break;
+	case Qt::Key_N:
+		ui().NoteG4Flat->animateClick();
+		break;
+	case Qt::Key_1:
+		ui().NoteA5->animateClick();
+		break;
+	case Qt::Key_2:
+		ui().NoteA5Flat->animateClick();
+		break;
+	case Qt::Key_3:
+		ui().NoteB5->animateClick();
+		break;
+	case Qt::Key_4:
+		ui().NoteC5->animateClick();
+		break;
+	case Qt::Key_5:
+		ui().NoteC5Flat->animateClick();
+		break;
+	case Qt::Key_6:
+		ui().NoteD5->animateClick();
+		break;
+	default:
+		break;
+	}*/
 }
 
+void PianoUI::keyReleaseEvent(QKeyEvent* event)
+{
+	if (KeyToNotes.count(event->key()) > 0) {
+		sounds_.keyOff();
+	}
+}
+
+void PianoUI::pressNote(int noteId)
+{
+	auto note = static_cast<NOTES>(noteId);
+	ui().noteLabel->setText(notesToString[note]);
+	sounds_.setFrequency(notes_frequency(note));
+
+	auto play_notes = new GUI_board(noteId, pianoNotes, sounds_);
+	connect(play_notes, &GUI_board::finished, play_notes, &QObject::deleteLater);
+	play_notes->start();
+}
 
 // TODO: There's probably a cleaner way to do this...
 void PianoUI::setButtonGroup()
