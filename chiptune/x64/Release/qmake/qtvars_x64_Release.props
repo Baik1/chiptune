@@ -5,9 +5,9 @@
 <Qt_LIBS_>D:\Qt\5.9.9\msvc2017_64\lib\qtmain.lib;shell32.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Gamepad.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5MultimediaWidgets.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Multimedia.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5UiTools.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Widgets.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Gui.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Core.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Qml.lib;D:\Qt\5.9.9\msvc2017_64\lib\Qt5Network.lib</Qt_LIBS_>
 <Qt_LIBPATH_>D:\Qt\5.9.9\msvc2017_64\lib;C:\openssl\lib;C:\Utils\my_sql\my_sql\lib;C:\Utils\postgresql\pgsql\lib</Qt_LIBPATH_>
 <Qt_INCLUDEPATH_
-      >$(Qt_INCLUDEPATH_);release\moc;release\uic</Qt_INCLUDEPATH_>
+      >$(Qt_INCLUDEPATH_);x64\Release\moc;x64\Release\uic</Qt_INCLUDEPATH_>
     <QtBkup_QtInstall
-      >msvc2017_64</QtBkup_QtInstall>
+      >5.9.9</QtBkup_QtInstall>
     <QtBkup_QtModules
       >core;gamepad;gui;multimediawidgets;qml;uitools;widgets</QtBkup_QtModules>
     <QtBkup_QtPathBinaries

@@ -51,7 +51,6 @@ PianoUI::PianoUI(QWidget* parent)
 
 }
 
-// TODO: Find a cleaner and faster way to do this.
 void PianoUI::keyPressEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
