@@ -1,15 +1,16 @@
 #include "Recorder.h"
 
-int Recorder::startRecord()
+void Recorder::startRecord()
 {
-	if (true)
-		std::cout << "Stream overflow detected!" << std::endl;
-	// Do something with the data in the "inputBuffer" buffer.
-
-	return 0;
+	active_ = true;
 }
 
-int Recorder::stopRecord()
+void Recorder::stopRecord()
 {
-	return 0;
+	active_ = false;
+}
+
+bool Recorder::isRecording()
+{
+	return active_;
 }

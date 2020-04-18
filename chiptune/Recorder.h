@@ -1,21 +1,20 @@
 #pragma once
-#include "RtAudio.h"
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
+#include <RtAudio.h>
+#include "SquareWave.h"
 
 /* Handles recording and playback for a given track */
+
+/* TODO: Create this class as a singleton instead of a global static variable */
 class Recorder
 {
 private:
-	RtAudio audio_;
-	bool active = false;
-	float active_file[30];
+	bool active_ = false;
+	stk::StkFloat samples_[300];
 public:
 	Recorder() = default;
-	Recorder(RtAudio& audio) { audio_ = audio; }
 	~Recorder() = default;
-	int startRecord();
-	int stopRecord();
+	void startRecord();
+	void stopRecord();
+	bool isRecording();
 };
 

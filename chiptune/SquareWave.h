@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <Generator.h>
 #include <SineWave.h>

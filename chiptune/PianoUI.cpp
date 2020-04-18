@@ -1,7 +1,3 @@
-#include <QThread>
-#include <RtAudio.h>
-#include <QKeyEvent>
-
 #include "PianoUI.h"
 #include "MusicUtility.h"
 
@@ -15,6 +11,10 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
+
+	/* TODO: do stuff with the caught StkFloat samples */
+	if (r.isRecording())
+		QTextStream(stdout) << "Currently recording..." << endl;
 
 	return 0;
 }
@@ -98,7 +98,18 @@ void PianoUI::pressNote(int noteId)
 	play_notes->start();
 }
 
-// TODO: There's probably a cleaner way to do this...
+void PianoUI::toggleRecording() 
+{
+	if (r.isRecording()) 
+	{
+		r.stopRecord();
+	}
+	else 
+	{
+		r.startRecord();
+	}
+}
+
 void PianoUI::setButtonGroup()
 {
 	pianoNotes = new QButtonGroup(this);
@@ -138,4 +149,6 @@ void PianoUI::initEvents()
 {
 	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonPressed),
 		[=](int noteId) { pressNote(noteId); });
+
+	connect(ui().RecordButton, SIGNAL(clicked()), this, SLOT(toggleRecording()));
 }
