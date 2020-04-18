@@ -150,5 +150,5 @@ void PianoUI::initEvents()
 	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonPressed),
 		[=](int noteId) { pressNote(noteId); });
 
-	connect(ui().RecordButton, SIGNAL(clicked()), this, SLOT(toggleRecording()));
+	connect(ui().RecordButton, &QPushButton::released, this, &PianoUI::toggleRecording);
 }
