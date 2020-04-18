@@ -11,8 +11,8 @@ void SpeedTest::endTimer()
 	total_time = std::chrono::duration_cast<std::chrono::duration<double>>(current_time - start_time);
 }
 
-void SpeedTest::printTimeInMilliseconds()
+void SpeedTest::printTimeInMilliseconds(std::string note)
 {
 	double time_in_sec = total_time.count() * 1000;
-	QTextStream(stdout) << "Latency for note X in milliseconds : " << time_in_sec << endl;
+	QTextStream(stdout) << "Latency for note " << QString::fromStdString(note) << " in milliseconds : " << time_in_sec << endl;
 }

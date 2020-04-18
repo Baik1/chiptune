@@ -21,14 +21,14 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 void PianoUI::GUI_board::run()
 {
-    auto note = static_cast<NOTES>(noteId_);
-
 	speed_test_.startTimer();
+
+    auto note = static_cast<NOTES>(noteId_);
 
 	sounds_.keyOn();
 
 	speed_test_.endTimer();
-	speed_test_.printTimeInMilliseconds();
+	speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff();
@@ -65,14 +65,14 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 	if (KeyToNotes.count(event->key()) > 0) {
 
 		speed_test_.startTimer();
-
+		
 		auto note = KeyToNotes[event->key()];
 		ui().noteLabel->setText(notesToString[note]);
 		sounds_.setFrequency(notes_frequency(note));
 		pianoNotes->button(note)->setDown(true);
 
 		speed_test_.endTimer();
-		speed_test_.printTimeInMilliseconds();
+		speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 		sounds_.keyOn();
 	}

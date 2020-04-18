@@ -15,6 +15,6 @@ public:
 
 	void startTimer();
 	void endTimer();
-	void printTimeInMilliseconds();
+	void printTimeInMilliseconds(std::string note);
 };
 
