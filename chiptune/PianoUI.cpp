@@ -22,12 +22,16 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 void PianoUI::GUI_board::run()
 {
     auto note = static_cast<NOTES>(noteId_);
+
 	speed_test_.startTimer();
+
 	sounds_.keyOn();
-	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
-	sounds_.keyOff();
+
 	speed_test_.endTimer();
 	speed_test_.printTimeInMilliseconds();
+
+	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
+	sounds_.keyOff();
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -59,11 +63,17 @@ PianoUI::PianoUI(QWidget* parent)
 void PianoUI::keyPressEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
+
 		speed_test_.startTimer();
+
 		auto note = KeyToNotes[event->key()];
 		ui().noteLabel->setText(notesToString[note]);
 		sounds_.setFrequency(notes_frequency(note));
 		pianoNotes->button(note)->setDown(true);
+
+		speed_test_.endTimer();
+		speed_test_.printTimeInMilliseconds();
+
 		sounds_.keyOn();
 	}
 }
@@ -74,8 +84,6 @@ void PianoUI::keyReleaseEvent(QKeyEvent* event)
 		auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff();
-		speed_test_.endTimer();
-		speed_test_.printTimeInMilliseconds();
 	}
 }
 

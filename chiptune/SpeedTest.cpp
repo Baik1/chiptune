@@ -8,11 +8,11 @@ void SpeedTest::startTimer()
 void SpeedTest::endTimer()
 {
 	auto current_time = std::chrono::high_resolution_clock::now();
-	total_time = std::chrono::duration_cast<std::chrono::duration<time_t>>(current_time - start_time);
+	total_time = std::chrono::duration_cast<std::chrono::duration<double>>(current_time - start_time);
 }
 
 void SpeedTest::printTimeInMilliseconds()
 {
-	time_t time_in_sec = total_time.count();
-	QTextStream(stdout) << "Elapsed time in seconds : " << time_in_sec << endl;
+	double time_in_sec = total_time.count() * 1000;
+	QTextStream(stdout) << "Latency for note X in milliseconds : " << time_in_sec << endl;
 }

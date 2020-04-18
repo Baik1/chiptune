@@ -8,7 +8,7 @@ class SpeedTest
 {
 private:
 	std::chrono::high_resolution_clock::time_point start_time;
-	std::chrono::duration<time_t> total_time;
+	std::chrono::duration<double> total_time;
 public:
 	SpeedTest() = default;
 	~SpeedTest() = default;
