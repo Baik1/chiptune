@@ -1,16 +1,20 @@
 #pragma once
 #include <chrono>
+#include <QDebug>
+#include <QTextStream>
 
-
-/* Calculates the time from input to output in microseconds */
+/* Calculates the time from input to output in seconds */
 class SpeedTest
 {
 private:
-	float time;
+	std::chrono::high_resolution_clock::time_point start_time;
+	std::chrono::duration<time_t> total_time;
 public:
-
-	/* Implement Holy Trinity as seen in class */
 	SpeedTest() = default;
 	~SpeedTest() = default;
+
+	void startTimer();
+	void endTimer();
+	void printTimeInMilliseconds();
 };
 

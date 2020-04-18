@@ -22,9 +22,12 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 void PianoUI::GUI_board::run()
 {
     auto note = static_cast<NOTES>(noteId_);
+	speed_test_.startTimer();
 	sounds_.keyOn();
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff();
+	speed_test_.endTimer();
+	speed_test_.printTimeInMilliseconds();
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -33,6 +36,8 @@ PianoUI::PianoUI(QWidget* parent)
 	ui().setupUi(this);
 	setButtonGroup();
 	initEvents();
+
+	speed_test_ = SpeedTest();
 
 	sounds_.setEnvelopeRate(0.01);
 	RtAudio::StreamParameters parameters;
@@ -54,6 +59,7 @@ PianoUI::PianoUI(QWidget* parent)
 void PianoUI::keyPressEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
+		speed_test_.startTimer();
 		auto note = KeyToNotes[event->key()];
 		ui().noteLabel->setText(notesToString[note]);
 		sounds_.setFrequency(notes_frequency(note));
@@ -68,6 +74,8 @@ void PianoUI::keyReleaseEvent(QKeyEvent* event)
 		auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff();
+		speed_test_.endTimer();
+		speed_test_.printTimeInMilliseconds();
 	}
 }
 
@@ -77,7 +85,7 @@ void PianoUI::pressNote(int noteId)
 	ui().noteLabel->setText(notesToString[note]);
 	sounds_.setFrequency(notes_frequency(note));
 
-	auto play_notes = new GUI_board(noteId, pianoNotes, sounds_);
+	auto play_notes = new GUI_board(noteId, pianoNotes, sounds_, speed_test_);
 	connect(play_notes, &GUI_board::finished, play_notes, &QObject::deleteLater);
 	play_notes->start();
 }

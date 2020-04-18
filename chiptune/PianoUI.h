@@ -1,11 +1,11 @@
 #pragma once
 
-
 #include <QThread>
 #include <RtAudio.h>
 #include "ui_PianoUI.h"
 
 #include "SquareWave.h"
+#include <SpeedTest.h>
 
 class PianoUI : public QWidget
 {
@@ -16,10 +16,11 @@ class PianoUI : public QWidget
 		int noteId_;
 		QButtonGroup* pianoNotes_;
 		SquareWave& sounds_;
+		SpeedTest& speed_test_;
 
 		void run() override;
 	public:
-		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds) {}
+		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds, SpeedTest& test) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds), speed_test_(test) {}
 	};
 
 public:
@@ -42,6 +43,8 @@ private:
 	bool play_sounds = false;
 	RtAudio audio_;
 	SquareWave sounds_;
+
+	SpeedTest speed_test_;
 
 	Ui::PianoUI ui_;
 	QButtonGroup* pianoNotes;

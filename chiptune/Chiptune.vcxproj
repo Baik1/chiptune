@@ -181,12 +181,15 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PianoUI.cpp" />
+    <ClCompile Include="Recorder.cpp" />
     <ClCompile Include="RtAudio\Envelope.cpp" />
     <ClCompile Include="RtAudio\Noise.cpp" />
     <ClCompile Include="RtAudio\RtAudio.cpp" />
     <ClCompile Include="RtAudio\SineWave.cpp" />
     <ClCompile Include="RtAudio\Stk.cpp" />
     <ClCompile Include="SinusWave.h" />
+    <ClCompile Include="SpeedTest.cpp" />
+    <ClCompile Include="Track.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -219,6 +222,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MusicUtility.h" />
+    <ClInclude Include="Recorder.h" />
     <ClInclude Include="RtAudio\Envelope.h" />
     <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h" />
     <ClInclude Include="RtAudio\Generator.h" />
@@ -226,7 +230,9 @@
     <ClInclude Include="RtAudio\RtAudio.h" />
     <ClInclude Include="RtAudio\SineWave.h" />
     <ClInclude Include="RtAudio\Stk.h" />
+    <ClInclude Include="SpeedTest.h" />
     <ClInclude Include="SquareWave.h" />
+    <ClInclude Include="Track.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
