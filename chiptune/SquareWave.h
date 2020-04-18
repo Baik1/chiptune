@@ -98,10 +98,13 @@ protected:
 
 inline StkFloat SquareWave::tick()
 {
-    double tick = 0.0;
+    /*double tick = 0.0;
     for(auto i=0; i< sines_.size(); i++)
         tick += (sines_[i].tick()) / (2 * i + 1);
-    return (4 / PI) * tick * envelope_.tick();
+    return (4 / PI) * tick * envelope_.tick();*/
+    return 0.5*(sines_[0].tick() < 0.5 ? 0 : 1) * envelope_.tick();
+    //return (sines_[0].tick() < 0 ? 0 : 1) * envelope_.tick();
+    //return sines_[0].tick() * envelope_.tick();
 }
 
 inline StkFrames& SquareWave::tick(StkFrames& frames, unsigned channel)

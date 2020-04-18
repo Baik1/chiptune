@@ -62,6 +62,9 @@
     <ClCompile Include="Track.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="SoundsManager.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
