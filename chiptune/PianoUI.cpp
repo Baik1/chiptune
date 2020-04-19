@@ -12,9 +12,11 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
 
-	/* TODO: do stuff with the caught StkFloat samples */
 	if (r.isRecording())
-		QTextStream(stdout) << "Currently recording..." << endl;
+	{
+		/* QTextStream(stdout) << "Currently recording..." << endl; */
+		r.saveSamples(samples, nBufferFrames);
+	}
 
 	return 0;
 }
@@ -110,6 +112,11 @@ void PianoUI::toggleRecording()
 	}
 }
 
+void PianoUI::startPlayback()
+{
+	r.playback();
+}
+
 void PianoUI::setButtonGroup()
 {
 	pianoNotes = new QButtonGroup(this);
@@ -151,4 +158,5 @@ void PianoUI::initEvents()
 		[=](int noteId) { pressNote(noteId); });
 
 	connect(ui().RecordButton, &QPushButton::released, this, &PianoUI::toggleRecording);
+	connect(ui().PlaybackButton, &QPushButton::released, this, &PianoUI::startPlayback);
 }

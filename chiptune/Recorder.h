@@ -1,6 +1,8 @@
 #pragma once
 #include <RtAudio.h>
+#include <vector>
 #include "SquareWave.h"
+#include <QTextStream>
 
 /* Handles recording and playback for a given track */
 
@@ -8,13 +10,16 @@
 class Recorder
 {
 private:
+	RtAudio* playback_ = new RtAudio();
 	bool active_ = false;
-	stk::StkFloat samples_[300];
+	std::vector<stk::StkFloat> samples_;
 public:
 	Recorder() = default;
 	~Recorder() = default;
 	void startRecord();
 	void stopRecord();
 	bool isRecording();
+	void saveSamples(stk::StkFloat* samples, unsigned int nBufferFrames);
+	void playback();
 };
 
