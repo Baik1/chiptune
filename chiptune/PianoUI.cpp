@@ -14,7 +14,7 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 	if (r.isRecording())
 	{
-		/* QTextStream(stdout) << "Currently recording..." << endl; */
+		// QTextStream(stdout) << "Currently recording..." << endl;
 		r.saveSamples(samples, nBufferFrames);
 	}
 

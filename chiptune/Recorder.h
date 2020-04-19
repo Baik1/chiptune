@@ -13,6 +13,8 @@ private:
 	RtAudio* playback_ = new RtAudio();
 	bool active_ = false;
 	std::vector<stk::StkFloat> samples_;
+	SquareWave* sounds_;
+	std::vector<int> recorded_notes_;
 public:
 	Recorder() = default;
 	~Recorder() = default;
