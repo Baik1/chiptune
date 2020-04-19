@@ -14,7 +14,6 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 	if (r.isRecording())
 	{
-		QTextStream(stdout) << "Currently recording..." << endl;
 		r.saveSamples(samples, nBufferFrames);
 	}
 
@@ -64,6 +63,8 @@ PianoUI::PianoUI(QWidget* parent)
 	catch (RtAudioError & error) {
 		throw error;
 	}
+
+	r.setSounds(&sounds_);
 
 }
 
@@ -125,7 +126,23 @@ void PianoUI::toggleRecording()
 
 void PianoUI::startPlayback()
 {
-	r.playback();
+	int last_note = NULL;
+	const std::vector<int> playbackNotes = r.getRecordedNotes();
+
+	for (int i = 0; i < (playbackNotes.size()); ++i)
+	{
+		if (playbackNotes[i] != NULL && last_note == NULL)
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			sounds_.setFrequency(note);
+			sounds_.keyOn();
+		}
+		else if (playbackNotes[i] == NULL && last_note != NULL)
+		{
+			sounds_.keyOff();
+		}
+		last_note = playbackNotes[i];
+	}
 }
 
 void PianoUI::setButtonGroup()
