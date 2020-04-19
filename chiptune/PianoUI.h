@@ -27,7 +27,8 @@ class PianoUI : public QWidget
 
 		void run() override;
 	public:
-		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds, SpeedTest& test) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds), speed_test_(test) {}
+		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds, SpeedTest& test) : 
+			noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds), speed_test_(test) {}
 	};
 
 public:

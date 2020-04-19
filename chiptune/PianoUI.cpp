@@ -14,7 +14,7 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 	if (r.isRecording())
 	{
-		// QTextStream(stdout) << "Currently recording..." << endl;
+		QTextStream(stdout) << "Currently recording..." << endl;
 		r.saveSamples(samples, nBufferFrames);
 	}
 
@@ -29,11 +29,16 @@ void PianoUI::GUI_board::run()
 
 	sounds_.keyOn();
 
+	r.setLastPlayedNote(note);
+
 	speed_test_.endTimer();
 	speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff();
+
+	r.setLastPlayedNote(NULL);
+
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -77,6 +82,9 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 		speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 		sounds_.keyOn();
+
+		/* save last note for recording */
+		r.setLastPlayedNote(note);
 	}
 }
 
@@ -86,6 +94,9 @@ void PianoUI::keyReleaseEvent(QKeyEvent* event)
 		auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff();
+
+		/*save last note for recording */
+		r.setLastPlayedNote(NULL);
 	}
 }
 

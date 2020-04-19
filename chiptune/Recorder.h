@@ -15,9 +15,11 @@ private:
 	std::vector<stk::StkFloat> samples_;
 	SquareWave* sounds_;
 	std::vector<int> recorded_notes_;
+	int last_played_note = NULL;
 public:
 	Recorder() = default;
 	~Recorder() = default;
+	void setLastPlayedNote(int n) { last_played_note = n; }
 	void startRecord();
 	void stopRecord();
 	bool isRecording();

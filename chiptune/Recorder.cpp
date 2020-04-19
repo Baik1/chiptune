@@ -31,6 +31,7 @@ bool Recorder::isRecording()
 void Recorder::saveSamples(stk::StkFloat* samples, unsigned int nBufferFrames)
 {
 	samples_.insert(samples_.end(), &samples[0], &samples[nBufferFrames - 1]);
+	recorded_notes_.push_back(last_played_note);
 }
 
 void Recorder::playback()
