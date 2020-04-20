@@ -138,8 +138,8 @@ void PianoUI::startPlayback()
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			pianoNotes->button(note)->animateClick(); /* press */
-			Sleep(10); /* for delay between notes */
+			pianoNotes->button(note)->animateClick(100); /* press */
+			Sleep(10); /* for slight delay between notes */
 		}
 	}
 }
