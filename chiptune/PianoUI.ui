@@ -599,8 +599,8 @@ border-color: rgb(0, 0, 0);</string>
   <widget class="QPushButton" name="RecordButton">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>90</y>
+     <x>450</x>
+     <y>100</y>
      <width>211</width>
      <height>23</height>
     </rect>
@@ -612,30 +612,14 @@ border-color: rgb(0, 0, 0);</string>
   <widget class="QPushButton" name="PlaybackButton">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>130</y>
+     <x>450</x>
+     <y>150</y>
      <width>211</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Playback</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="SaveButton">
-   <property name="geometry">
-    <rect>
-     <x>460</x>
-     <y>170</y>
-     <width>211</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Save</string>
-   </property>
-   <property name="icon">
-    <iconset theme="play"/>
    </property>
   </widget>
  </widget>

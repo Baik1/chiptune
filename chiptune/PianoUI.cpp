@@ -131,7 +131,7 @@ void PianoUI::startPlayback()
 	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
-		// TODO: handle two repeating notes
+		// TODO: trigger key presses instead??
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
