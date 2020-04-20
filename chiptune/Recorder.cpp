@@ -2,7 +2,7 @@
 
 void Recorder::startRecord()
 {
-	recorded_notes_.empty();
+	recorded_notes_.clear();
 	active_ = true;
 }
 
