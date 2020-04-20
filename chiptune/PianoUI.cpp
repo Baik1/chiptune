@@ -128,12 +128,13 @@ void PianoUI::startPlayback()
 {
 	const std::vector<int> playbackNotes = r.getRecordedNotes();
 
+	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
-		if (playbackNotes[i] != NULL)
+		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			pianoNotes->button(note)->animateClick();
+			pianoNotes->button(note)->animateClick(100);
 		}
 	}
 }
