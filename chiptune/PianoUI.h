@@ -47,9 +47,8 @@ protected:
 public slots:
 	void PianoUI::pressNote(int noteId);
 	void PianoUI::toggleRecording();
-	void PianoUI::startPlayback();
 
-	void startPlaybackKeyPresses();
+	void startPlayback();
 	
 private:
 	bool play_sounds = false;

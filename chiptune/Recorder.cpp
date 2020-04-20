@@ -18,5 +18,7 @@ bool Recorder::isRecording()
 
 void Recorder::saveSamples()
 {
+	int notes_array[4];
+	notes_array[0] = last_played_note;
 	recorded_notes_.push_back(last_played_note);
 }

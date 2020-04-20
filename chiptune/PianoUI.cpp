@@ -124,24 +124,6 @@ void PianoUI::startPlayback()
 {
 	const std::vector<int> playbackNotes = r.getRecordedNotes();
 
-	// TODO: handle repeating notes.
-	int last_note = NULL;
-	for (int i = 0; i < (playbackNotes.size()); ++i)
-	{
-		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
-		{
-			auto note = static_cast<NOTES>(playbackNotes[i]);
-			pianoNotes->button(note)->animateClick(100); /* press */
-			Sleep(50); /* for slight delay between notes */
-		}
-	}
-}
-
-// Alternative take of above function, to have more control over button presses
-void PianoUI::startPlaybackKeyPresses()
-{
-	const std::vector<int> playbackNotes = r.getRecordedNotes();
-
 	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
@@ -150,10 +132,11 @@ void PianoUI::startPlaybackKeyPresses()
 			auto note = static_cast<NOTES>(playbackNotes[i]);
 			pianoNotes->button(note)->setDown(true);
 			sounds_.keyOn(note);
+			Sleep(100); /* delay, TODO: calculate delay according to time passed on note?? */
 		}
 		else if (playbackNotes[i] == NULL && last_note != NULL)
 		{
-			auto note = static_cast<NOTES>(playbackNotes[i]);
+			auto note = static_cast<NOTES>(last_note);
 			pianoNotes->button(note)->setDown(false);
 			sounds_.keyOff(note);
 		}
