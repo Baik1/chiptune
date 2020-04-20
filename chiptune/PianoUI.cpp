@@ -139,7 +139,7 @@ void PianoUI::startPlayback()
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
 			pianoNotes->button(note)->animateClick(100); /* press */
-			Sleep(10); /* for slight delay between notes */
+			Sleep(50); /* for slight delay between notes */
 		}
 	}
 }
