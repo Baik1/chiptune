@@ -4,6 +4,7 @@
 #include <RtAudio.h>
 #include "ui_PianoUI.h"
 
+#include "SoundsManager.h";
 #include "SquareWave.h"
 #include <SpeedTest.h>
 #include <Recorder.h>
@@ -22,13 +23,12 @@ class PianoUI : public QWidget
 	{
 		int noteId_;
 		QButtonGroup* pianoNotes_;
-		SquareWave& sounds_;
+		Sounds_Manager& sounds_;
 		SpeedTest& speed_test_;
 
 		void run() override;
 	public:
-		GUI_board(int note, QButtonGroup* pianoNotes, SquareWave& sounds, SpeedTest& test) : 
-			noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds), speed_test_(test) {}
+		GUI_board(int note, QButtonGroup* pianoNotes, Sounds_Manager& sounds, SpeedTest& test) : noteId_(note), pianoNotes_(pianoNotes), sounds_(sounds), speed_test_(test) {}
 	};
 
 public:
@@ -54,7 +54,7 @@ public slots:
 private:
 	bool play_sounds = false;
 	RtAudio audio_;
-	SquareWave sounds_;
+	Sounds_Manager sounds_;
 
 	SpeedTest speed_test_;
 

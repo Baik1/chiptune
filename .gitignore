@@ -61,3 +61,5 @@ chiptune/debug/
 
 *.user
 chiptune/PianoUI - Copie.ui
+
+chiptune/x64/Release/qmake/

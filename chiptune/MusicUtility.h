@@ -1,4 +1,5 @@
 #pragma once
+
 #include <map>
 #include <cmath>
 
@@ -116,14 +117,14 @@ static std::map<NOTES, const char* > notesToString = {
    {D5, "D5"},
 };
 
-float notes_frequency(NOTES note)
+float inline notes_frequency(NOTES note)
 {
     const double R = pow(2.0, 1 / 12.0);
     const double A4_Frequency = 440.0;
     return A4_Frequency * pow(R, double(notesToInt[note]));
 }
 
-float notes_frequency(int note)
+float inline int_frequency(int note)
 {
     const double R = pow(2.0, 1 / 12.0);
     const double A4_Frequency = 440.0;

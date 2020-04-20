@@ -6,7 +6,7 @@ using namespace stk;
 int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	double streamTime, RtAudioStreamStatus status, void* dataPointer)
 {
-	auto* sine = static_cast<SquareWave*>(dataPointer);
+	auto* sine = static_cast<Sounds_Manager*>(dataPointer);
     auto* samples = static_cast<StkFloat*>(outputBuffer);
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)
@@ -26,7 +26,7 @@ void PianoUI::GUI_board::run()
 
     auto note = static_cast<NOTES>(noteId_);
 
-	sounds_.keyOn();
+	sounds_.keyOn(note);
 
 	r.setLastPlayedNote(note);
 
@@ -34,10 +34,8 @@ void PianoUI::GUI_board::run()
 	speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
-	sounds_.keyOff();
-
+	sounds_.keyOff(note);
 	r.setLastPlayedNote(NULL);
-
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -50,12 +48,10 @@ PianoUI::PianoUI(QWidget* parent)
 	speed_test_ = SpeedTest();
 
 	ui().PlaybackButton->setEnabled(false);
-
-	sounds_.setEnvelopeRate(0.01);
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
 	parameters.nChannels = 1;
-    auto format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
+	const auto format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
     auto bufferFrames = RT_BUFFER_SIZE;
 
 	try {
@@ -73,16 +69,14 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 
 		speed_test_.startTimer();
 		
-		auto note = KeyToNotes[event->key()];
+		const auto note = KeyToNotes[event->key()];
 		ui().noteLabel->setText(notesToString[note]);
-		sounds_.setFrequency(notes_frequency(note));
 		pianoNotes->button(note)->setDown(true);
 
 		speed_test_.endTimer();
 		speed_test_.printTimeInMilliseconds(notesToString[note]);
 
-		sounds_.keyOn();
-
+		sounds_.keyOn(note);
 		/* save last note for recording */
 		r.setLastPlayedNote(note);
 	}
@@ -91,9 +85,9 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 void PianoUI::keyReleaseEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
-		auto note = KeyToNotes[event->key()];
+		const auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
-	    sounds_.keyOff();
+	    sounds_.keyOff(note);
 
 		/*save last note for recording */
 		r.setLastPlayedNote(NULL);
@@ -104,7 +98,6 @@ void PianoUI::pressNote(int noteId)
 {
 	auto note = static_cast<NOTES>(noteId);
 	ui().noteLabel->setText(notesToString[note]);
-	sounds_.setFrequency(notes_frequency(note));
 
 	auto play_notes = new GUI_board(noteId, pianoNotes, sounds_, speed_test_);
 	connect(play_notes, &GUI_board::finished, play_notes, &QObject::deleteLater);
@@ -155,15 +148,14 @@ void PianoUI::startPlaybackKeyPresses()
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			sounds_.setFrequency(notes_frequency(note));
 			pianoNotes->button(note)->setDown(true);
-			sounds_.keyOn();
+			sounds_.keyOn(note);
 		}
 		else if (playbackNotes[i] == NULL && last_note != NULL)
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
 			pianoNotes->button(note)->setDown(false);
-			sounds_.keyOff();
+			sounds_.keyOff(note);
 		}
 		last_note = playbackNotes[i];
 	}
