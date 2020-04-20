@@ -1,114 +1,53 @@
-#include <vector>
+#pragma once
+
 #include <Generator.h>
 #include <SineWave.h>
 #include <Envelope.h>
 
 using namespace stk;
 
-class SquareWave :public stk::Generator
+class SquareWave
 {
+    SineWave sine_;
+    Envelope envelope_;
+
 public:
-    //! Default constructor.
-    SquareWave(void)
+    SquareWave(double frequency, double rate)
     {
-        sines_.resize(200);
-    }
+        sine_.setFrequency(frequency);
+        envelope_.setRate(rate);
+    };
+
+    //! Default constructor.
+    SquareWave(void) = default;
 
     //! Class destructor.
     ~SquareWave(void) = default;
 
     //! Clear output and reset time pointer to zero.
-    void reset(void);
-
-    void setSinusRate(StkFloat rate)
+    void reset(void)
     {
-        for (auto& sine : sines_)
-            sine.setRate(rate);
-    }
+        sine_.reset();
+    };
 
-    void setEnvelopeRate(StkFloat rate)
+    void setRate(StkFloat rate)
     {
         envelope_.setRate(rate);
     }
 
     void setFrequency(StkFloat frequency)
     {
-        for (auto i = 0; i < sines_.size(); i++)
-            sines_[i].setFrequency((2 * i + 1) * frequency);
+        sine_.setFrequency(frequency);
     }
-
-    void addTime(StkFloat time)
-    {
-        for (auto& sine : sines_)
-            sine.addTime(time);
-    }
-
-    void addPhase(StkFloat phase) {
-        for (auto& sine : sines_)
-            sine.addPhase(phase);
-    }
-
-    void addPhaseOffset(StkFloat phaseOffset) {
-        for (auto& sine : sines_)
-            sine.addPhaseOffset(phaseOffset);
-    }
-
-    //! Return the last computed output value.
-    StkFloat lastOut(void) const { return lastFrame_[0]; }
 
     //! Set target = 1.
-    void keyOn(void) { this->setTarget(1.0); }
+    void keyOn(void) { envelope_.setTarget(1.0); }
 
     //! Set target = 0.
-    void keyOff(void) { this->setTarget(0.0); }
+    void keyOff(void) { envelope_.setTarget(0.0); }
 
-    //! Set the \e rate based on a positive time duration (seconds).
-    /*!
-      The \e rate is calculated such that the envelope will ramp from
-      a value of 0.0 to 1.0 in the specified time duration.
-     */
-    void setTime(StkFloat time) { envelope_.setTime(time); }
-
-    //! Set the target value.
-    void setTarget(StkFloat target) { envelope_.setTarget(target); }
-
-    //! Set current and target values to \e value.
-    void setValue(StkFloat value);
-
-    //! Return the current envelope \e state (0 = at target, 1 otherwise).
-    int getState(void) const { return envelope_.getState(); };
-
-    //! Compute and return one output sample.
-    StkFloat tick(void);
-
-    //! Fill a channel of the StkFrames object with computed outputs.
-    /*!
-      The \c channel argument must be less than the number of
-      channels in the StkFrames argument (the first channel is specified
-      by 0).  However, range checking is only performed if _STK_DEBUG_
-      is defined during compilation, in which case an out-of-range value
-      will trigger an StkError exception.
-    */
-    StkFrames& tick(StkFrames& frames, unsigned int channel = 0) override;
-
-protected:
-    std::vector<SineWave> sines_;
-    Envelope envelope_;
+    StkFloat tick(void)
+    {
+        return  0.5 * (sine_.tick() < 0.5 ? 0 : 1) * envelope_.tick();
+    }
 };
-
-inline StkFloat SquareWave::tick()
-{
-    /*double tick = 0.0;
-    for(auto i=0; i< sines_.size(); i++)
-        tick += (sines_[i].tick()) / (2 * i + 1);
-    return (4 / PI) * tick * envelope_.tick();*/
-    return 0.5*(sines_[0].tick() < 0.5 ? 0 : 1) * envelope_.tick();
-    //return (sines_[0].tick() < 0 ? 0 : 1) * envelope_.tick();
-    //return sines_[0].tick() * envelope_.tick();
-}
-
-inline StkFrames& SquareWave::tick(StkFrames& frames, unsigned channel)
-{
-    throw std::exception("not implemented");
-    return frames;
-}

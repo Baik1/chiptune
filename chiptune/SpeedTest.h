@@ -1,6 +1,6 @@
 #pragma once
+
 #include <chrono>
-#include <QDebug>
 #include <QTextStream>
 
 /* Calculates the time from input to output in seconds */

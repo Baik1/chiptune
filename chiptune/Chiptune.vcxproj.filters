@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Generated Files">
@@ -27,43 +27,53 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="RtAudio">
+      <UniqueIdentifier>{abb73dc6-5a2c-4706-b74e-545f555bae67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PianoUI.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RtAudio\Envelope.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RtAudio\Noise.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>RtAudio</Filter>
     </ClCompile>
     <ClCompile Include="RtAudio\RtAudio.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>RtAudio</Filter>
     </ClCompile>
     <ClCompile Include="RtAudio\SineWave.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>RtAudio</Filter>
     </ClCompile>
     <ClCompile Include="RtAudio\Stk.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="RtAudio\Envelope.cpp">
+      <Filter>RtAudio</Filter>
     </ClCompile>
     <ClCompile Include="SinusWave.h">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpeedTest.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="Recorder.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpeedTest.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Track.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundsManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,49 +93,54 @@
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MusicUtility.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\Envelope.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\Generator.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\Noise.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\RtAudio.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\SineWave.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RtAudio\Stk.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SquareWave.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpeedTest.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Recorder.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Track.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <QtMoc Include="PianoUI.h">
-      <Filter>Generated Files</Filter>
+      <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="PianoUI.ui" />
+    <QtUic Include="PianoUI.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MusicUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Generator.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Noise.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\RtAudio.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\SineWave.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Stk.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="RtAudio\Envelope.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareWave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Recorder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Track.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpeedTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
