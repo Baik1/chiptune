@@ -48,6 +48,6 @@ public:
 
     StkFloat tick(void)
     {
-        return  0.5 * (sine_.tick() < 0.5 ? 0 : 1) * envelope_.tick();
+        return  0.5 * (sine_.tick() < 0.0 ? 0 : 1) * envelope_.tick();
     }
 };

@@ -11,13 +11,30 @@ class Sounds_Manager
     SquareWave test;
     container pianoNotes;
     std::atomic<int> pressedNotes;
+    int maxNotes;
 
-    public:
+public:
     Sounds_Manager()
     {
         pianoNotes = container();
         pressedNotes = 0;
+        maxNotes = 3;
     }
+
+    int getMaxNote()
+    {
+        return maxNotes;
+    }
+    void setMaxNote(int max)
+    {
+        maxNotes = max;
+    }
+
+    bool CanPress()
+    {
+        return pressedNotes < maxNotes;
+    }
+
 
     void keyOn(NOTES note)
     {
@@ -39,6 +56,7 @@ class Sounds_Manager
         double val = 0.0;
         for(auto& it : pianoNotes)
             val += it.second.tick();
+        val /= maxNotes;
         return val > 1 ? 1 : val;
     }
 };

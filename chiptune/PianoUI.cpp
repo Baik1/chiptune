@@ -148,15 +148,14 @@ void PianoUI::startPlaybackKeyPresses()
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			sounds_.setFrequency(notes_frequency(note));
 			pianoNotes->button(note)->setDown(true);
-			sounds_.keyOn();
+			sounds_.keyOn(note);
 		}
 		else if (playbackNotes[i] == NULL && last_note != NULL)
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
 			pianoNotes->button(note)->setDown(false);
-			sounds_.keyOff();
+			sounds_.keyOff(note);
 		}
 		last_note = playbackNotes[i];
 	}
