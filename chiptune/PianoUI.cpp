@@ -126,22 +126,15 @@ void PianoUI::toggleRecording()
 
 void PianoUI::startPlayback()
 {
-	int last_note = NULL;
 	const std::vector<int> playbackNotes = r.getRecordedNotes();
 
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
-		if (playbackNotes[i] != NULL && last_note == NULL)
+		if (playbackNotes[i] != NULL)
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			sounds_.setFrequency(note);
-			sounds_.keyOn();
+			pianoNotes->button(note)->animateClick();
 		}
-		else if (playbackNotes[i] == NULL && last_note != NULL)
-		{
-			sounds_.keyOff();
-		}
-		last_note = playbackNotes[i];
 	}
 }
 
