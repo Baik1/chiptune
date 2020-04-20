@@ -131,13 +131,38 @@ void PianoUI::startPlayback()
 	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
-		// TODO: trigger key presses instead??
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
 			pianoNotes->button(note)->animateClick(); /* press */
 			Sleep(50); /* for delay between notes */
 		}
+	}
+}
+
+// Tentative with keyboard presses, this is not working well...
+void PianoUI::startPlaybackKeyPresses()
+{
+	const std::vector<int> playbackNotes = r.getRecordedNotes();
+
+	int last_note = NULL;
+	for (int i = 0; i < (playbackNotes.size()); ++i)
+	{
+		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			auto key = static_cast<Qt::Key>(NotesToKey[note]);
+			QKeyEvent* keyPress = new QKeyEvent(QEvent::KeyPress, key, Qt::NoModifier);
+			QCoreApplication::postEvent(this, keyPress);
+		}
+		else if (playbackNotes[i] == NULL && last_note != NULL)
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			auto key = static_cast<Qt::Key>(NotesToKey[note]);
+			QKeyEvent* keyReleased = new QKeyEvent(QEvent::KeyRelease, key, Qt::NoModifier);
+			QCoreApplication::postEvent(this, keyReleased);
+		}
+		last_note = playbackNotes[i];
 	}
 }
 
