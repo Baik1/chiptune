@@ -14,7 +14,7 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 	if (r.isRecording())
 	{
-		r.saveSamples(samples, nBufferFrames);
+		r.saveSamples();
 	}
 
 	return 0;
@@ -49,6 +49,8 @@ PianoUI::PianoUI(QWidget* parent)
 
 	speed_test_ = SpeedTest();
 
+	ui().PlaybackButton->setEnabled(false);
+
 	sounds_.setEnvelopeRate(0.01);
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
@@ -63,9 +65,6 @@ PianoUI::PianoUI(QWidget* parent)
 	catch (RtAudioError & error) {
 		throw error;
 	}
-
-	r.setSounds(&sounds_);
-
 }
 
 void PianoUI::keyPressEvent(QKeyEvent* event)
@@ -117,10 +116,14 @@ void PianoUI::toggleRecording()
 	if (r.isRecording()) 
 	{
 		r.stopRecord();
+		ui().RecordButton->setStyleSheet("background-color: white");
+		ui().PlaybackButton->setEnabled(true);
 	}
 	else 
 	{
 		r.startRecord();
+		ui().RecordButton->setStyleSheet("background-color: red");
+		ui().PlaybackButton->setEnabled(false);
 	}
 }
 
@@ -128,6 +131,7 @@ void PianoUI::startPlayback()
 {
 	const std::vector<int> playbackNotes = r.getRecordedNotes();
 
+	// TODO: handle repeating notes.
 	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
@@ -140,7 +144,7 @@ void PianoUI::startPlayback()
 	}
 }
 
-// Tentative with keyboard presses, this is not working well...
+// Alternative take of above function, to have more control over button presses
 void PianoUI::startPlaybackKeyPresses()
 {
 	const std::vector<int> playbackNotes = r.getRecordedNotes();
@@ -151,16 +155,15 @@ void PianoUI::startPlaybackKeyPresses()
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			auto key = static_cast<Qt::Key>(NotesToKey[note]);
-			QKeyEvent* keyPress = new QKeyEvent(QEvent::KeyPress, key, Qt::NoModifier);
-			QCoreApplication::postEvent(this, keyPress);
+			sounds_.setFrequency(notes_frequency(note));
+			pianoNotes->button(note)->setDown(true);
+			sounds_.keyOn();
 		}
 		else if (playbackNotes[i] == NULL && last_note != NULL)
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			auto key = static_cast<Qt::Key>(NotesToKey[note]);
-			QKeyEvent* keyReleased = new QKeyEvent(QEvent::KeyRelease, key, Qt::NoModifier);
-			QCoreApplication::postEvent(this, keyReleased);
+			pianoNotes->button(note)->setDown(false);
+			sounds_.keyOff();
 		}
 		last_note = playbackNotes[i];
 	}
