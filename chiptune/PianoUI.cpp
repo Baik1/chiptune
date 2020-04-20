@@ -1,7 +1,3 @@
-#include <QThread>
-#include <RtAudio.h>
-#include <QKeyEvent>
-
 #include "PianoUI.h"
 #include "MusicUtility.h"
 
@@ -16,6 +12,11 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
 
+	if (r.isRecording())
+	{
+		r.saveSamples();
+	}
+
 	return 0;
 }
 
@@ -27,11 +28,14 @@ void PianoUI::GUI_board::run()
 
 	sounds_.keyOn(note);
 
+	r.setLastPlayedNote(note);
+
 	speed_test_.endTimer();
 	speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff(note);
+	r.setLastPlayedNote(NULL);
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -43,6 +47,7 @@ PianoUI::PianoUI(QWidget* parent)
 
 	speed_test_ = SpeedTest();
 
+	ui().PlaybackButton->setEnabled(false);
 	RtAudio::StreamParameters parameters;
 	parameters.deviceId = audio_.getDefaultOutputDevice();
 	parameters.nChannels = 1;
@@ -56,7 +61,6 @@ PianoUI::PianoUI(QWidget* parent)
 	catch (RtAudioError & error) {
 		throw error;
 	}
-
 }
 
 void PianoUI::keyPressEvent(QKeyEvent* event)
@@ -73,6 +77,8 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 		speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 		sounds_.keyOn(note);
+		/* save last note for recording */
+		r.setLastPlayedNote(note);
 	}
 }
 
@@ -82,6 +88,9 @@ void PianoUI::keyReleaseEvent(QKeyEvent* event)
 		const auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff(note);
+
+		/*save last note for recording */
+		r.setLastPlayedNote(NULL);
 	}
 }
 
@@ -95,7 +104,64 @@ void PianoUI::pressNote(int noteId)
 	play_notes->start();
 }
 
-// TODO: There's probably a cleaner way to do this...
+void PianoUI::toggleRecording() 
+{
+	if (r.isRecording()) 
+	{
+		r.stopRecord();
+		ui().RecordButton->setStyleSheet("background-color: white");
+		ui().PlaybackButton->setEnabled(true);
+	}
+	else 
+	{
+		r.startRecord();
+		ui().RecordButton->setStyleSheet("background-color: red");
+		ui().PlaybackButton->setEnabled(false);
+	}
+}
+
+void PianoUI::startPlayback()
+{
+	const std::vector<int> playbackNotes = r.getRecordedNotes();
+
+	// TODO: handle repeating notes.
+	int last_note = NULL;
+	for (int i = 0; i < (playbackNotes.size()); ++i)
+	{
+		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			pianoNotes->button(note)->animateClick(100); /* press */
+			Sleep(10); /* for slight delay between notes */
+		}
+	}
+}
+
+// Alternative take of above function, to have more control over button presses
+void PianoUI::startPlaybackKeyPresses()
+{
+	const std::vector<int> playbackNotes = r.getRecordedNotes();
+
+	int last_note = NULL;
+	for (int i = 0; i < (playbackNotes.size()); ++i)
+	{
+		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			sounds_.setFrequency(notes_frequency(note));
+			pianoNotes->button(note)->setDown(true);
+			sounds_.keyOn();
+		}
+		else if (playbackNotes[i] == NULL && last_note != NULL)
+		{
+			auto note = static_cast<NOTES>(playbackNotes[i]);
+			pianoNotes->button(note)->setDown(false);
+			sounds_.keyOff();
+		}
+		last_note = playbackNotes[i];
+	}
+}
+
 void PianoUI::setButtonGroup()
 {
 	pianoNotes = new QButtonGroup(this);
@@ -135,4 +201,7 @@ void PianoUI::initEvents()
 {
 	connect(pianoNotes, QOverload<int>::of(&QButtonGroup::buttonPressed),
 		[=](int noteId) { pressNote(noteId); });
+
+	connect(ui().RecordButton, &QPushButton::released, this, &PianoUI::toggleRecording);
+	connect(ui().PlaybackButton, &QPushButton::released, this, &PianoUI::startPlayback);
 }

@@ -1,21 +1,28 @@
 #pragma once
-#include "RtAudio.h"
-#include <iostream>
-#include <cstdlib>
-#include <cstring>
+#include <RtAudio.h>
+#include <vector>
+#include "SquareWave.h"
+#include <QTextStream>
 
-/* Handles recording and playback for a given track */
+/* Handles recording for a given track */
+/* TODO: Create this class as a singleton instead of a global static variable */
 class Recorder
 {
 private:
-	RtAudio audio_;
-	bool active = false;
-	float active_file[30];
+	bool active_ = false;
+	std::vector<int> recorded_notes_;
+	int last_played_note = NULL;
 public:
 	Recorder() = default;
-	Recorder(RtAudio& audio) { audio_ = audio; }
 	~Recorder() = default;
-	int startRecord();
-	int stopRecord();
+
+	void setLastPlayedNote(int n) { last_played_note = n; }
+
+	std::vector<int> getRecordedNotes() { return recorded_notes_; };
+
+	void startRecord();
+	void stopRecord();
+	bool isRecording();
+	void saveSamples();
 };
 

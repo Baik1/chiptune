@@ -7,6 +7,13 @@
 #include "SoundsManager.h";
 #include "SquareWave.h"
 #include <SpeedTest.h>
+#include <Recorder.h>
+
+#include <QKeyEvent>
+
+/* TODO: Create singleton object instead of static global variable. It'll make it cleaner imo.
+   I don't like this being global, but I can't let it access tick otherwise, since it's not a member class...*/
+static Recorder r = Recorder();
 
 class PianoUI : public QWidget
 {
@@ -39,6 +46,10 @@ protected:
 
 public slots:
 	void PianoUI::pressNote(int noteId);
+	void PianoUI::toggleRecording();
+	void PianoUI::startPlayback();
+
+	void startPlaybackKeyPresses();
 	
 private:
 	bool play_sounds = false;

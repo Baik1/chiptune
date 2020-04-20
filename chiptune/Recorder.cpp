@@ -1,15 +1,22 @@
 #include "Recorder.h"
 
-int Recorder::startRecord()
+void Recorder::startRecord()
 {
-	if (true)
-		std::cout << "Stream overflow detected!" << std::endl;
-	// Do something with the data in the "inputBuffer" buffer.
-
-	return 0;
+	recorded_notes_.clear();
+	active_ = true;
 }
 
-int Recorder::stopRecord()
+void Recorder::stopRecord()
 {
-	return 0;
+	active_ = false;
+}
+
+bool Recorder::isRecording()
+{
+	return active_;
+}
+
+void Recorder::saveSamples()
+{
+	recorded_notes_.push_back(last_played_note);
 }

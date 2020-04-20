@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{515D80E9-0520-3C1A-BC49-2BE4D9CF759C}</ProjectGuid>
+    <ProjectGuid>{CA550237-ED9E-329F-B897-0CC391C05B0F}</ProjectGuid>
     <RootNamespace>chiptune</RootNamespace>
     <Keyword>QtVS_v302</Keyword>
     <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
@@ -189,7 +189,6 @@
     <ClCompile Include="RtAudio\Stk.cpp" />
     <ClCompile Include="SinusWave.h" />
     <ClCompile Include="SpeedTest.cpp" />
-    <ClCompile Include="Track.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -233,7 +232,6 @@
     <ClInclude Include="SoundsManager.h" />
     <ClInclude Include="SpeedTest.h" />
     <ClInclude Include="SquareWave.h" />
-    <ClInclude Include="Track.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

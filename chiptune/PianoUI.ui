@@ -557,8 +557,8 @@ border-color: rgb(0, 0, 0);</string>
   <widget class="QLabel" name="noteLabel">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>125</y>
+     <x>180</x>
+     <y>135</y>
      <width>201</width>
      <height>51</height>
     </rect>
@@ -578,8 +578,8 @@ border-color: rgb(0, 0, 0);</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>80</y>
+     <x>150</x>
+     <y>90</y>
      <width>271</width>
      <height>41</height>
     </rect>
@@ -594,6 +594,32 @@ border-color: rgb(0, 0, 0);</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="RecordButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>100</y>
+     <width>211</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Record</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PlaybackButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>150</y>
+     <width>211</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Playback</string>
    </property>
   </widget>
  </widget>

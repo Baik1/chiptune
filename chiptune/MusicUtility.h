@@ -2,6 +2,7 @@
 
 #include <map>
 #include <cmath>
+
 /*
 
     Notes go from A to G, with 3 denoting the note's octave.
@@ -48,6 +49,39 @@ static std::map<NOTES, const int > notesToInt = {
    {C5, 15},
    {C5Flat, 16},
    {D5, 17},
+};
+
+static std::map<NOTES, int> NotesToKey = {
+   {A3, Qt::Key_Q},
+   {A3Flat, Qt::Key_2},
+   {B3, Qt::Key_W},
+   {C3, Qt::Key_E},
+   {C3Flat, Qt::Key_4},
+   {D3, Qt::Key_R},
+   {D3Flat, Qt::Key_5},
+   {E3, Qt::Key_T},
+   {F3, Qt::Key_Y},
+   {F3Flat, Qt::Key_7},
+   {G3, Qt::Key_U},
+   {G3Flat, Qt::Key_8},
+   {A4, Qt::Key_I},
+   {A4Flat, Qt::Key_9},
+   {B4, Qt::Key_O},
+   {C4, Qt::Key_A},
+   {C4Flat, Qt::Key_Z},
+   {D4, Qt::Key_S},
+   {D4Flat, Qt::Key_X},
+   {E4, Qt::Key_D},
+   {F4, Qt::Key_F},
+   {F4Flat, Qt::Key_V},
+   {G4, Qt::Key_G},
+   {G4Flat, Qt::Key_B},
+   {A5, Qt::Key_H},
+   {A5Flat, Qt::Key_N},
+   {B5, Qt::Key_J},
+   {C5, Qt::Key_K},
+   {C5Flat, Qt::Key_Comma},
+   {D5, Qt::Key_L},
 };
 
 static std::map<int, NOTES  > KeyToNotes = {
