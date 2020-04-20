@@ -131,10 +131,12 @@ void PianoUI::startPlayback()
 	int last_note = NULL;
 	for (int i = 0; i < (playbackNotes.size()); ++i)
 	{
+		// TODO: handle two repeating notes
 		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
 		{
 			auto note = static_cast<NOTES>(playbackNotes[i]);
-			pianoNotes->button(note)->animateClick(100);
+			pianoNotes->button(note)->animateClick(); /* press */
+			Sleep(50); /* for delay between notes */
 		}
 	}
 }
