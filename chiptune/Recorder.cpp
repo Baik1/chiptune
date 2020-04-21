@@ -27,6 +27,8 @@ void Recorder::startRecord()
 void Recorder::stopRecord()
 {
 	active_ = false;
+	std::array<int, 4>notes_array = { NULL, NULL, NULL, NULL };
+	recorded_notes_.push_back(notes_array);
 }
 
 bool Recorder::isRecording()
