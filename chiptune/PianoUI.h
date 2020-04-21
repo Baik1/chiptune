@@ -9,11 +9,9 @@
 #include <SpeedTest.h>
 #include <Recorder.h>
 
-#include <QKeyEvent>
+#include <RecorderSingleton.h>
 
-/* TODO: Create singleton object instead of static global variable.
-   I don't like this being global, but I can't let it access tick otherwise, since it's not a member class. */
-static Recorder r = Recorder();
+#include <QKeyEvent>
 
 class PianoUI : public QWidget
 {

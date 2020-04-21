@@ -182,6 +182,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PianoUI.cpp" />
     <ClCompile Include="Recorder.cpp" />
+    <ClCompile Include="RecorderSingleton.cpp" />
     <ClCompile Include="RtAudio\Envelope.cpp" />
     <ClCompile Include="RtAudio\Noise.cpp" />
     <ClCompile Include="RtAudio\RtAudio.cpp" />
@@ -222,6 +223,7 @@
   <ItemGroup>
     <ClInclude Include="MusicUtility.h" />
     <ClInclude Include="Recorder.h" />
+    <ClInclude Include="RecorderSingleton.h" />
     <ClInclude Include="RtAudio\Envelope.h" />
     <ClInclude Include="RtAudio\functiondiscoverykeys_devpkey.h" />
     <ClInclude Include="RtAudio\Generator.h" />

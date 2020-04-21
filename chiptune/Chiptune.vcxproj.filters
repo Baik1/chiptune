@@ -72,8 +72,8 @@
     <ClCompile Include="SpeedTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Track.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="RecorderSingleton.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,17 +130,14 @@
     <ClInclude Include="SquareWave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SoundsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Recorder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Track.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SpeedTest.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RecorderSingleton.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

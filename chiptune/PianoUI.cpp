@@ -6,15 +6,17 @@ using namespace stk;
 int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 	double streamTime, RtAudioStreamStatus status, void* dataPointer)
 {
+	Recorder* r = RecorderSingleton::getInstance();
+
 	auto* sine = static_cast<Sounds_Manager*>(dataPointer);
     auto* samples = static_cast<StkFloat*>(outputBuffer);
 
 	for (unsigned int i = 0; i < nBufferFrames; i++)
 		*samples++ = sine->tick();
 
-	if (r.isRecording())
+	if (r->isRecording())
 	{
-		r.saveSamples();
+		r->saveSamples();
 	}
 
 	return 0;
@@ -22,20 +24,22 @@ int tick(void* outputBuffer, void* inputBuffer, unsigned int nBufferFrames,
 
 void PianoUI::GUI_board::run()
 {
+	Recorder* r = RecorderSingleton::getInstance();
+
 	speed_test_.startTimer();
 
     auto note = static_cast<NOTES>(noteId_);
 
 	sounds_.keyOn(note);
 
-	r.setLastPlayedNote(note);
+	r->setLastPlayedNote(note);
 
 	speed_test_.endTimer();
 	speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff(note);
-	r.resetNote(note);
+	r->resetNote(note);
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -67,6 +71,8 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
 
+		Recorder* r = RecorderSingleton::getInstance();
+
 		speed_test_.startTimer();
 		
 		const auto note = KeyToNotes[event->key()];
@@ -78,18 +84,21 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 
 		sounds_.keyOn(note);
 
-		r.setLastPlayedNote(note);
+		r->setLastPlayedNote(note);
 	}
 }
 
 void PianoUI::keyReleaseEvent(QKeyEvent* event)
 {
 	if (KeyToNotes.count(event->key()) > 0) {
+
+		Recorder* r = RecorderSingleton::getInstance();
+
 		const auto note = KeyToNotes[event->key()];
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff(note);
 
-		r.resetNote(note);
+		r->resetNote(note);
 	}
 }
 
@@ -105,15 +114,17 @@ void PianoUI::pressNote(int noteId)
 
 void PianoUI::toggleRecording() 
 {
-	if (r.isRecording()) 
+	Recorder* r = RecorderSingleton::getInstance();
+
+	if (r->isRecording()) 
 	{
-		r.stopRecord();
+		r->stopRecord();
 		ui().RecordButton->setStyleSheet("background-color: white");
 		ui().PlaybackButton->setEnabled(true);
 	}
 	else 
 	{
-		r.startRecord();
+		r->startRecord();
 		ui().RecordButton->setStyleSheet("background-color: red");
 		ui().PlaybackButton->setEnabled(false);
 	}
@@ -121,7 +132,9 @@ void PianoUI::toggleRecording()
 
 void PianoUI::startPlayback()
 {
-	const std::vector<std::array<int, 4>> playbackNotes = r.getRecordedNotes();
+	Recorder* r = RecorderSingleton::getInstance();
+
+	const std::vector<std::array<int, 4>> playbackNotes = r->getRecordedNotes();
 
 	std::array<int, 4> last_note = { NULL, NULL, NULL, NULL };
 	for (int i = 0; i < playbackNotes.size(); i++)

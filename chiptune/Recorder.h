@@ -7,7 +7,6 @@
 #include <set>
 
 /* Handles recording for a given track */
-/* TODO: Create this class as a singleton instead of a global static variable */
 class Recorder
 {
 private:
