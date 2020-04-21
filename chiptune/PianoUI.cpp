@@ -35,7 +35,7 @@ void PianoUI::GUI_board::run()
 
 	while (pianoNotes_->button(noteId_)->isDown()) { /*On attend la fin*/ };
 	sounds_.keyOff(note);
-	r.setLastPlayedNote(NULL);
+	r.resetNote(note);
 }
 
 PianoUI::PianoUI(QWidget* parent)
@@ -77,7 +77,7 @@ void PianoUI::keyPressEvent(QKeyEvent* event)
 		speed_test_.printTimeInMilliseconds(notesToString[note]);
 
 		sounds_.keyOn(note);
-		/* save last note for recording */
+
 		r.setLastPlayedNote(note);
 	}
 }
@@ -89,8 +89,7 @@ void PianoUI::keyReleaseEvent(QKeyEvent* event)
 		pianoNotes->button(note)->setDown(false);
 	    sounds_.keyOff(note);
 
-		/*save last note for recording */
-		r.setLastPlayedNote(NULL);
+		r.resetNote(note);
 	}
 }
 
@@ -122,23 +121,26 @@ void PianoUI::toggleRecording()
 
 void PianoUI::startPlayback()
 {
-	const std::vector<int> playbackNotes = r.getRecordedNotes();
+	const std::vector<std::array<int, 4>> playbackNotes = r.getRecordedNotes();
 
-	int last_note = NULL;
-	for (int i = 0; i < (playbackNotes.size()); ++i)
+	std::array<int, 4> last_note = { NULL, NULL, NULL, NULL };
+	for (int i = 0; i < playbackNotes.size(); i++)
 	{
-		if (playbackNotes[i] != NULL && last_note != playbackNotes[i])
+		for (int j = 0; j < 4; j++) 
 		{
-			auto note = static_cast<NOTES>(playbackNotes[i]);
-			pianoNotes->button(note)->setDown(true);
-			sounds_.keyOn(note);
-			Sleep(100); /* delay, TODO: calculate delay according to time passed on note?? */
-		}
-		else if (playbackNotes[i] == NULL && last_note != NULL)
-		{
-			auto note = static_cast<NOTES>(last_note);
-			pianoNotes->button(note)->setDown(false);
-			sounds_.keyOff(note);
+			if (playbackNotes[i][j] != NULL && last_note[j] != playbackNotes[i][j])
+			{
+				auto note = static_cast<NOTES>(playbackNotes[i][j]);
+				pianoNotes->button(note)->setDown(true);
+				sounds_.keyOn(note);
+				Sleep(200); /* delay to let the note play itself */
+			}
+			else if (playbackNotes[i][j] == NULL && last_note[j] != NULL)
+			{
+				auto note = static_cast<NOTES>(last_note[j]);
+				pianoNotes->button(note)->setDown(false);
+				sounds_.keyOff(note);
+			}
 		}
 		last_note = playbackNotes[i];
 	}
