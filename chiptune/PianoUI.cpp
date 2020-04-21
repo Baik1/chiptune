@@ -133,7 +133,7 @@ void PianoUI::startPlayback()
 				auto note = static_cast<NOTES>(playbackNotes[i][j]);
 				pianoNotes->button(note)->setDown(true);
 				sounds_.keyOn(note);
-				Sleep(200); /* delay to let the note play itself */
+				Sleep(300); /* delay to let the note play itself */
 			}
 			else if (playbackNotes[i][j] == NULL && last_note[j] != NULL)
 			{
