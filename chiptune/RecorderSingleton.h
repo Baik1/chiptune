@@ -1,12 +1,14 @@
 #pragma once
 #include <Recorder.h>
 
-class RecorderSingleton
+class RecorderSingleton 
 {
 private:
-	static Recorder* instance;
+	// static Recorder* instance;
 	RecorderSingleton();		// to prevent instancing
 public:
 	static Recorder* getInstance();
 };
+
+// rendre incopiable
 

@@ -58,13 +58,8 @@ PianoUI::PianoUI(QWidget* parent)
 	const auto format = (sizeof(stk::StkFloat) == 8) ? RTAUDIO_FLOAT64 : RTAUDIO_FLOAT32;
     auto bufferFrames = RT_BUFFER_SIZE;
 
-	try {
-		audio_.openStream(&parameters, NULL, format, (unsigned int)Stk::sampleRate(), &bufferFrames, &tick, (void*)&sounds_);
-		audio_.startStream();
-	}
-	catch (RtAudioError & error) {
-		throw error;
-	}
+	audio_.openStream(&parameters, NULL, format, (unsigned int)Stk::sampleRate(), &bufferFrames, &tick, (void*)&sounds_);
+	audio_.startStream();
 }
 
 void PianoUI::keyPressEvent(QKeyEvent* event)
